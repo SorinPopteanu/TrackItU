@@ -1,0 +1,14 @@
+# Ignore IntelliJ and macOS system files
+.idea/
+.DS_Store
+
+# Ignore target and build directories
+target/
+build/
+
+# Ignore logs and temp files
+*.log
+*.tmp
+
+# Ignore environment files (secrets)
+.env
