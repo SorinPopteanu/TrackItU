@@ -39,8 +39,6 @@ public class AccountsServiceImpl implements IAccountsService {
         if (optionalCustomer.isPresent()) {
             throw new CustomerAlreadyExistsException("Customer already exists with email: " + customer.getEmail());
         }
-        customer.setCreatedAt(LocalDateTime.now());
-        customer.setCreatedBy("System");
         Customer savedCustomer = customerRepository.save(customer);
         accountsRepository.save(createNewAccount(savedCustomer, createAccountDto.getAccountType()));
     }
@@ -52,9 +50,6 @@ public class AccountsServiceImpl implements IAccountsService {
     private Accounts createNewAccount(Customer customer, String accountType) {
         Accounts newAccount = new Accounts();
         long randomAccNumber = 1000000000L + new Random().nextInt(900000000);
-
-        newAccount.setCreatedAt(LocalDateTime.now());
-        newAccount.setCreatedBy("System");
 
         newAccount.setCustomerId(customer.getCustomerId());
         newAccount.setAccountNumber(randomAccNumber);
@@ -107,11 +102,27 @@ public class AccountsServiceImpl implements IAccountsService {
                     "CustomerID",
                     customerId.toString()));
 
-            CustomerMapper.mapToCustomer(customerAccountDto.getCustomerDto(),  customer);
+            CustomerMapper.mapToCustomer(customerAccountDto.getCustomerDto(), customer);
             customerRepository.save(customer);
             isUpdated = true;
         }
         return isUpdated;
     }
+
+    /**
+     * @param email - Input email
+     * @return boolean indicating if the deletion of the Account is successful or not
+     */
+    @Override
+    public boolean deleteAccount(String email) {
+        Customer customer = customerRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException(
+                "Customer",
+                "email",
+                email));
+        accountsRepository.deleteByCustomerId(customer.getCustomerId());
+        customerRepository.deleteById(customer.getCustomerId());
+        return true;
+    }
+
 
 }
