@@ -1,5 +1,7 @@
 package com.trackitu.accounts.entity;
 
+import com.trackitu.accounts.enums.AccountStatus;
+import com.trackitu.accounts.enums.AccountType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,6 +17,11 @@ public class Accounts extends BaseEntity {
     private Long customerId;
 
     @Column(name = "account_type")
-    private String accountType;
+    @Enumerated(EnumType.STRING)
+    private AccountType accountType;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private AccountStatus accountStatus;
 
 }

@@ -1,5 +1,7 @@
 package com.trackitu.accounts.dto;
 
+import com.trackitu.accounts.enums.AccountStatus;
+import com.trackitu.accounts.enums.AccountType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -12,5 +14,7 @@ public class CreateAccountDto {
     private CustomerDto customerDto;
 
     @NotNull
-    private String accountType;
+    private AccountType accountType;
+
+    private AccountStatus accountStatus;
 }
