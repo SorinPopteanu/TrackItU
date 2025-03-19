@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `accounts` (
     `customer_id` int NOT NULL,
     `account_number` int AUTO_INCREMENT PRIMARY KEY,
     `account_type` varchar(100) NOT NULL,
+    `status` varchar(15) NOT NULL,
     `created_at` datetime NOT NULL,
     `created_by` varchar(20) NOT NULL,
     `updated_at` datetime DEFAULT NULL,

@@ -2,6 +2,7 @@ package com.trackitu.accounts.service;
 
 import com.trackitu.accounts.dto.CreateAccountDto;
 import com.trackitu.accounts.dto.CustomerAccountDto;
+import java.util.List;
 
 public interface IAccountsService {
 
@@ -12,9 +13,15 @@ public interface IAccountsService {
 
     /**
      * @param email - Input last name
-     * @return Account Details based on the last name
+     * @return Account Details based on the email
      */
     CustomerAccountDto fetchAccountDetails(String email);
+
+    /**
+     *
+     * @return List of all the Accounts
+     */
+    List<CustomerAccountDto> fetchAllAccounts();
 
     /**
      * @param customerAccountDto - CustomerAccountDto Object
@@ -28,4 +35,9 @@ public interface IAccountsService {
      */
     boolean deleteAccount(String email);
 
+    /**
+     * @param email - Input email
+     * @return boolean indicating if the status of the Account is changed or not
+     */
+    boolean changeStatusAccount(String email);
 }

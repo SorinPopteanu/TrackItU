@@ -7,6 +7,8 @@ import com.trackitu.accounts.dto.CustomerAccountDto;
 import com.trackitu.accounts.dto.CustomerDto;
 import com.trackitu.accounts.entity.Accounts;
 import com.trackitu.accounts.entity.Customer;
+import com.trackitu.accounts.enums.AccountStatus;
+import com.trackitu.accounts.enums.AccountType;
 import com.trackitu.accounts.exception.CustomerAlreadyExistsException;
 import com.trackitu.accounts.exception.ResourceNotFoundException;
 import com.trackitu.accounts.mapper.AccountsMapper;
@@ -16,9 +18,8 @@ import com.trackitu.accounts.repository.CustomerRepository;
 import com.trackitu.accounts.service.IAccountsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.*;
 
 @Service
 @AllArgsConstructor
@@ -27,9 +28,11 @@ public class AccountsServiceImpl implements IAccountsService {
     private AccountsRepository accountsRepository;
     private CustomerRepository customerRepository;
 
+    private final Map<String, ScheduledFuture<?>> scheduledTask = new ConcurrentHashMap<>();
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
     /**
      * Create a new account
-     *
      * @param createAccountDto
      */
     @Override
@@ -47,13 +50,14 @@ public class AccountsServiceImpl implements IAccountsService {
      * @param customer, accountType
      * @return the new account details
      */
-    private Accounts createNewAccount(Customer customer, String accountType) {
+    private Accounts createNewAccount(Customer customer, AccountType accountType) {
         Accounts newAccount = new Accounts();
         long randomAccNumber = 1000000000L + new Random().nextInt(900000000);
 
         newAccount.setCustomerId(customer.getCustomerId());
         newAccount.setAccountNumber(randomAccNumber);
         newAccount.setAccountType(accountType);
+        newAccount.setAccountStatus(AccountStatus.ACTIVATED);
         return newAccount;
     }
 
@@ -77,6 +81,29 @@ public class AccountsServiceImpl implements IAccountsService {
         customerAccountDto.setCustomerDto(CustomerMapper.mapToCustomerDto(customer, new CustomerDto()));
         customerAccountDto.setAccountsDto(AccountsMapper.mapToAccountsDto(accounts, new AccountsDto()));
         return customerAccountDto;
+    }
+
+    /**
+     * @return List of all the Accounts
+     */
+    @Override
+    public List<CustomerAccountDto> fetchAllAccounts() {
+        List<Accounts> accountsList = accountsRepository.findAll();
+        List<CustomerAccountDto> customerAccountDtoList = new ArrayList<>();
+
+        for (Accounts accounts : accountsList) {
+            Customer customer = customerRepository.findById(accounts.getCustomerId())
+                                                  .orElseThrow(() -> new ResourceNotFoundException("Customer",
+                                                                                                   "customerId",
+                                                                                                   accounts.getCustomerId()
+                                                                                                           .toString()));
+            CustomerAccountDto customerAccountDto = new CustomerAccountDto();
+            customerAccountDto.setCustomerDto(CustomerMapper.mapToCustomerDto(customer, new CustomerDto()));
+            customerAccountDto.setAccountsDto(AccountsMapper.mapToAccountsDto(accounts, new AccountsDto()));
+            customerAccountDtoList.add(customerAccountDto);
+        }
+
+        return customerAccountDtoList;
     }
 
     /**
@@ -124,5 +151,50 @@ public class AccountsServiceImpl implements IAccountsService {
         return true;
     }
 
+    /**
+     * @param email - Input email
+     * @return boolean indicating if the status of the Account is changed or not
+     */
+    @Override
+    public boolean changeStatusAccount(String email) {
+        Customer customer = customerRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException(
+                "Customer",
+                "email",
+                email));
+        Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId())
+                                              .orElseThrow(() -> new ResourceNotFoundException("Account",
+                                                                                               "customerId",
+                                                                                               customer.getCustomerId()
+                                                                                                       .toString()));
 
+        AccountsDto accountsDto = AccountsMapper.mapToAccountsDto(accounts, new AccountsDto());
+        if (accountsDto.getAccountStatus().equals(AccountStatus.ACTIVATED)) {
+            accountsDto.setAccountStatus(AccountStatus.DEACTIVATED);
+            scheduleAccountDeletion(email);
+        } else {
+            accountsDto.setAccountStatus(AccountStatus.ACTIVATED);
+            cancelScheduledDeletion(email);
+        }
+        AccountsMapper.mapToAccounts(accountsDto, accounts);
+        accountsRepository.save(accounts);
+        return true;
+    }
+
+    private void scheduleAccountDeletion(String email) {
+        cancelScheduledDeletion(email);
+
+        ScheduledFuture<?> future = scheduler.schedule(() -> {
+            deleteAccount(email);
+            scheduledTask.remove(email);
+        }, 10, TimeUnit.SECONDS);
+
+        scheduledTask.put(email, future);
+    }
+
+    private void cancelScheduledDeletion(String email) {
+        ScheduledFuture<?> future = scheduledTask.remove(email);
+        if (future != null) {
+            future.cancel(false);
+        }
+    }
 }
