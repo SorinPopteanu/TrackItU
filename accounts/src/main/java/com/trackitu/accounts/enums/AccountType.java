@@ -1,7 +1,5 @@
 package com.trackitu.accounts.enums;
 
 public enum AccountType {
-    ADMIN,
-    STUDENT,
-    PROFESSOR
+    ADMIN, STUDENT, PROFESSOR
 }

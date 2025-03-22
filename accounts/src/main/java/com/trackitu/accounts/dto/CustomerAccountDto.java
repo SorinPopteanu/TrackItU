@@ -7,8 +7,10 @@ import lombok.Data;
 @Data
 public class CustomerAccountDto {
 
-    @Valid @NotNull
-    private CustomerDto customerDto;
-    @Valid @NotNull
-    private AccountsDto accountsDto;
+  @Valid
+  @NotNull
+  private CustomerDto customerDto;
+  @Valid
+  @NotNull
+  private AccountsDto accountsDto;
 }

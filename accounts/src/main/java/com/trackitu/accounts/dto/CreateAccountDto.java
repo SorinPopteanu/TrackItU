@@ -9,12 +9,12 @@ import lombok.Data;
 @Data
 public class CreateAccountDto {
 
-    @Valid
-    @NotNull
-    private CustomerDto customerDto;
+  @Valid
+  @NotNull
+  private CustomerDto customerDto;
 
-    @NotNull
-    private AccountType accountType;
+  @NotNull
+  private AccountType accountType;
 
-    private AccountStatus accountStatus;
+  private AccountStatus accountStatus;
 }
