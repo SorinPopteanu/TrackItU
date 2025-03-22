@@ -71,15 +71,10 @@ public class AccountsServiceImpl implements IAccountsService {
   @Override
   public CustomerAccountDto fetchAccountDetails(String email) {
     Customer customer = customerRepository.findByEmail(email)
-        .orElseThrow(() -> new ResourceNotFoundException(
-            "Customer",
-            "email",
-            email));
-    Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId())
-        .orElseThrow(() -> new ResourceNotFoundException("Account",
-            "customerId",
-            customer.getCustomerId()
-                .toString()));
+        .orElseThrow(() -> new ResourceNotFoundException("Customer", "email", email));
+    Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
+        () -> new ResourceNotFoundException("Account", "customerId",
+            customer.getCustomerId().toString()));
 
     CustomerAccountDto customerAccountDto = new CustomerAccountDto();
     customerAccountDto.setCustomerDto(CustomerMapper.mapToCustomerDto(customer, new CustomerDto()));
@@ -96,11 +91,9 @@ public class AccountsServiceImpl implements IAccountsService {
     List<CustomerAccountDto> customerAccountDtoList = new ArrayList<>();
 
     for (Accounts accounts : accountsList) {
-      Customer customer = customerRepository.findById(accounts.getCustomerId())
-          .orElseThrow(() -> new ResourceNotFoundException("Customer",
-              "customerId",
-              accounts.getCustomerId()
-                  .toString()));
+      Customer customer = customerRepository.findById(accounts.getCustomerId()).orElseThrow(
+          () -> new ResourceNotFoundException("Customer", "customerId",
+              accounts.getCustomerId().toString()));
       CustomerAccountDto customerAccountDto = new CustomerAccountDto();
       customerAccountDto.setCustomerDto(
           CustomerMapper.mapToCustomerDto(customer, new CustomerDto()));
@@ -121,20 +114,15 @@ public class AccountsServiceImpl implements IAccountsService {
     boolean isUpdated = false;
     AccountsDto accountsDto = customerAccountDto.getAccountsDto();
     if (accountsDto != null) {
-      Accounts accounts = accountsRepository.findById(accountsDto.getAccountNumber())
-          .orElseThrow(() -> new ResourceNotFoundException("Account",
-              "AccountNumber",
-              accountsDto.getAccountNumber()
-                  .toString()));
+      Accounts accounts = accountsRepository.findById(accountsDto.getAccountNumber()).orElseThrow(
+          () -> new ResourceNotFoundException("Account", "AccountNumber",
+              accountsDto.getAccountNumber().toString()));
       AccountsMapper.mapToAccounts(accountsDto, accounts);
       accounts = accountsRepository.save(accounts);
 
       Long customerId = accounts.getCustomerId();
-      Customer customer = customerRepository.findById(customerId)
-          .orElseThrow(() -> new ResourceNotFoundException(
-              "Customer",
-              "CustomerID",
-              customerId.toString()));
+      Customer customer = customerRepository.findById(customerId).orElseThrow(
+          () -> new ResourceNotFoundException("Customer", "CustomerID", customerId.toString()));
 
       CustomerMapper.mapToCustomer(customerAccountDto.getCustomerDto(), customer);
       customerRepository.save(customer);
@@ -150,10 +138,7 @@ public class AccountsServiceImpl implements IAccountsService {
   @Override
   public boolean deleteAccount(String email) {
     Customer customer = customerRepository.findByEmail(email)
-        .orElseThrow(() -> new ResourceNotFoundException(
-            "Customer",
-            "email",
-            email));
+        .orElseThrow(() -> new ResourceNotFoundException("Customer", "email", email));
     accountsRepository.deleteByCustomerId(customer.getCustomerId());
     customerRepository.deleteById(customer.getCustomerId());
     return true;
@@ -166,15 +151,10 @@ public class AccountsServiceImpl implements IAccountsService {
   @Override
   public boolean changeStatusAccount(String email) {
     Customer customer = customerRepository.findByEmail(email)
-        .orElseThrow(() -> new ResourceNotFoundException(
-            "Customer",
-            "email",
-            email));
-    Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId())
-        .orElseThrow(() -> new ResourceNotFoundException("Account",
-            "customerId",
-            customer.getCustomerId()
-                .toString()));
+        .orElseThrow(() -> new ResourceNotFoundException("Customer", "email", email));
+    Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
+        () -> new ResourceNotFoundException("Account", "customerId",
+            customer.getCustomerId().toString()));
 
     AccountsDto accountsDto = AccountsMapper.mapToAccountsDto(accounts, new AccountsDto());
     if (accountsDto.getAccountStatus().equals(AccountStatus.ACTIVATED)) {

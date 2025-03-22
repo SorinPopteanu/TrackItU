@@ -9,7 +9,8 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Rooms extends BaseEntity {
+@Table(name = "rooms")
+public class Room extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

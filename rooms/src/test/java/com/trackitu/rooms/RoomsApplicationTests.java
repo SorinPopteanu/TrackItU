@@ -1,10 +1,10 @@
-package com.trackitu.rooms;
+package com.trackitu.room;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RoomsApplicationTests {
+class RoomApplicationTests {
 
 	@Test
 	void contextLoads() {

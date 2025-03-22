@@ -24,8 +24,7 @@ public class AccountsController {
 
   @PostMapping("/create")
   public ResponseEntity<ResponseDto> createAccount(
-      @Valid
-      @RequestBody CreateAccountDto createAccountDto) {
+      @Valid @RequestBody CreateAccountDto createAccountDto) {
     iAccountsService.createAccount(createAccountDto);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(new ResponseDto(AccountsConstants.STATUS_201, AccountsConstants.MESSAGE_201));
@@ -33,8 +32,7 @@ public class AccountsController {
 
   @GetMapping("/fetch")
   public ResponseEntity<CustomerAccountDto> fetchAccountDetails(
-      @Email(message = "Email address is not valid")
-      @RequestParam String email) {
+      @Email(message = "Email address is not valid") @RequestParam String email) {
     CustomerAccountDto customerAccountDto = iAccountsService.fetchAccountDetails(email);
     return ResponseEntity.status(HttpStatus.OK).body(customerAccountDto);
   }
@@ -47,8 +45,7 @@ public class AccountsController {
 
   @PutMapping("/update")
   public ResponseEntity<ResponseDto> updateAccountDetails(
-      @Valid
-      @RequestBody CustomerAccountDto customerAccountDto) {
+      @Valid @RequestBody CustomerAccountDto customerAccountDto) {
     boolean isUpdated = iAccountsService.updateAccount(customerAccountDto);
     if (isUpdated) {
       return ResponseEntity.status(HttpStatus.OK)
@@ -61,8 +58,7 @@ public class AccountsController {
 
   @PutMapping("/changeStatus")
   public ResponseEntity<ResponseDto> changeStatusAccount(
-      @Email(message = "Email address is not valid")
-      @RequestParam String email) {
+      @Email(message = "Email address is not valid") @RequestParam String email) {
     boolean isChanged = iAccountsService.changeStatusAccount(email);
     if (isChanged) {
       return ResponseEntity.status(HttpStatus.OK)
@@ -75,8 +71,7 @@ public class AccountsController {
 
   @DeleteMapping("/delete")
   public ResponseEntity<ResponseDto> deleteAccount(
-      @Email(message = "Email address is not valid")
-      @RequestParam String email) {
+      @Email(message = "Email address is not valid") @RequestParam String email) {
     boolean isDeleted = iAccountsService.deleteAccount(email);
     if (isDeleted) {
       return ResponseEntity.status(HttpStatus.OK)
