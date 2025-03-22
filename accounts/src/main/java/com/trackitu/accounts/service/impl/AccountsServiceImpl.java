@@ -101,7 +101,6 @@ public class AccountsServiceImpl implements IAccountsService {
           AccountsMapper.mapToAccountsDto(accounts, new AccountsDto()));
       customerAccountDtoList.add(customerAccountDto);
     }
-
     return customerAccountDtoList;
   }
 
