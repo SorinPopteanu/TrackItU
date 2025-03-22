@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `room_professor` (
     room_professor_id int AUTO_INCREMENT PRIMARY KEY,
     `room_id` int NOT NULL,
     `professor_id` varchar(5) NOT NULL,
+    FOREIGN KEY (room_id) REFERENCES rooms(room_id),
     `created_at` datetime NOT NULL,
     `created_by` varchar(20) NOT NULL,
     `updated_at` datetime DEFAULT NULL,

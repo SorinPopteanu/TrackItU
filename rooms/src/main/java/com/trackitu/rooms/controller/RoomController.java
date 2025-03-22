@@ -5,6 +5,7 @@ import com.trackitu.rooms.dto.RoomDto;
 import com.trackitu.rooms.service.IRoomService;
 import com.trackitu.rooms.constants.RoomsConstants;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -48,7 +49,7 @@ public class RoomController {
   }
 
   @PutMapping("/update")
-  public ResponseEntity<ResponseDto> updateRoomDetails(@RequestBody RoomDto roomDto) {
+  public ResponseEntity<ResponseDto> updateRoomDetails(@Valid @RequestBody RoomDto roomDto) {
     boolean isUpdated = iRoomService.updateRoomDetails(roomDto);
     if (isUpdated) {
       return ResponseEntity.status(HttpStatus.OK)
@@ -60,7 +61,9 @@ public class RoomController {
   }
 
   @DeleteMapping("/delete")
-  public ResponseEntity<ResponseDto> deleteRoom(@RequestParam String roomCode) {
+  public ResponseEntity<ResponseDto> deleteRoom(
+      @Pattern(regexp = "[A-Z]{2}\\d{3}", message = "Room code must be in the format 'ZZ999'")
+      @RequestParam String roomCode) {
     boolean isDeleted = iRoomService.deleteRoom(roomCode);
     if (isDeleted) {
       return ResponseEntity.status(HttpStatus.OK)
