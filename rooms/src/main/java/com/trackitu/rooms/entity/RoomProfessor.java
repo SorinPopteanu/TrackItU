@@ -15,7 +15,7 @@ public class RoomProfessor extends BaseEntity{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "room_professor_id")
-  private Long id;
+  private Long roomProfessorId;
 
   @Column(name = "room_id")
   private Long roomId;

@@ -59,4 +59,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
   }
 
+  @ExceptionHandler(RoomAllocationAlreadyExists.class)
+  public ResponseEntity<ErrorResponseDto> handleRoomAllocationAlreadyExists(
+      RoomAllocationAlreadyExists exception, WebRequest webRequest) {
+    ErrorResponseDto errorResponseDto = new ErrorResponseDto(webRequest.getDescription(false),
+        HttpStatus.BAD_REQUEST, exception.getMessage(), LocalDateTime.now());
+    return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
+  }
+
 }

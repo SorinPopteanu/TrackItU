@@ -58,7 +58,8 @@ public class AccountsController {
 
   @PutMapping("/changeStatus")
   public ResponseEntity<ResponseDto> changeStatusAccount(
-      @Email(message = "Email address is not valid") @RequestParam String email) {
+      @Email(message = "Email address is not valid")
+      @RequestParam String email) {
     boolean isChanged = iAccountsService.changeStatusAccount(email);
     if (isChanged) {
       return ResponseEntity.status(HttpStatus.OK)
