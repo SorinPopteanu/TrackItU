@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `bookings` (
     `start_time` datetime NOT NULL,
     `end_time` datetime NOT NULL,
     `booking_status` varchar(20) NOT NULL,
+    FOREIGN KEY (room_id) REFERENCES rooms(room_id),
     `created_at` datetime NOT NULL,
     `created_by` varchar(20) NOT NULL,
     `updated_at` datetime DEFAULT NULL,

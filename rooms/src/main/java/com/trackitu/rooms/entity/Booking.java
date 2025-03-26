@@ -12,7 +12,8 @@ import java.time.LocalTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Bookings extends BaseEntity {
+@Table(name = "bookings")
+public class Booking extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,5 +36,6 @@ public class Bookings extends BaseEntity {
   private LocalTime endTime;
 
   @Column(name = "booking_status")
+  @Enumerated(EnumType.STRING)
   private BookingStatus bookingStatus;
 }
