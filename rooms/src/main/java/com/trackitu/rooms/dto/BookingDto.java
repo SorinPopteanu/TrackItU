@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import lombok.Data;
 
 @Data
-public class BookingsDto {
+public class BookingDto {
 
   @NotNull(message = "Room id can not be a null or empty")
   private Long roomId;

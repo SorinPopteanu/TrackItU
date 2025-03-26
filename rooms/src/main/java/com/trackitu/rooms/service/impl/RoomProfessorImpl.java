@@ -93,8 +93,9 @@ public class RoomProfessorImpl implements IRoomProfessorService {
   public boolean deleteRoomProfessor(Long roomProfessorId) {
     RoomProfessor roomProfessor = roomProfessorRepository.findByRoomProfessorId(roomProfessorId)
         .orElseThrow(
-            () -> new ResourceNotFoundException("RoomProfessor", "RoomProfessor", roomProfessorId.toString()));
-    roomProfessorRepository.deleteByRoomProfessorId(roomProfessor.getRoomProfessorId());
+            () -> new ResourceNotFoundException("RoomProfessor", "RoomProfessor",
+                roomProfessorId.toString()));
+    roomProfessorRepository.deleteById(roomProfessor.getRoomProfessorId());
     return true;
   }
 
@@ -112,6 +113,4 @@ public class RoomProfessorImpl implements IRoomProfessorService {
       return true;
     }
   }
-
-
 }
