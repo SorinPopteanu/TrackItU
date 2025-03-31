@@ -62,11 +62,16 @@ public class BookingServiceImpl implements IBookingService {
   public boolean updateBookingStatus(BookingDto bookingDto) {
     boolean isUpdated = false;
     if (bookingDto != null) {
+      ArrayList<String> details = new ArrayList<>();
+      details.add(bookingDto.getRoomId().toString());
+      details.add(bookingDto.getBookingDate().toString());
+      details.add(bookingDto.getStartTime().toString());
+      details.add(bookingDto.getEndTime().toString());
       Booking booking = bookingRepository.findByRoomIdAndBookingDateAndStartTimeAndEndTime(
-              bookingDto.getRoomId(),
-              bookingDto.getBookingDate(), bookingDto.getStartTime(), bookingDto.getEndTime())
+              bookingDto.getRoomId(), bookingDto.getBookingDate(), bookingDto.getStartTime(),
+              bookingDto.getEndTime())
           .orElseThrow(() -> new ResourceNotFoundException("Booking", "given information",
-              bookingDto.getRoomId().toString()));
+              details.toString()));
       BookingMapper.mapToBookings(bookingDto, booking);
       bookingRepository.save(booking);
       isUpdated = true;
@@ -87,9 +92,13 @@ public class BookingServiceImpl implements IBookingService {
       bookingRepository.deleteById(optionalBooking.get().getBookingId());
       return true;
     } else {
-      throw new ResourceNotFoundException("Booking", "given information", "");
+      ArrayList<String> details = new ArrayList<>();
+      details.add(bookingDto.getRoomId().toString());
+      details.add(bookingDto.getBookingDate().toString());
+      details.add(bookingDto.getStartTime().toString());
+      details.add(bookingDto.getEndTime().toString());
+      throw new ResourceNotFoundException("Booking", "given information", details.toString());
     }
   }
-
 
 }
