@@ -11,6 +11,7 @@
 	<groupId>com.trackitu</groupId>
 	<artifactId>accounts</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>accounts</name>
 	<description>Microservice for Accounts</description>
 	<url/>
@@ -98,6 +99,19 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.1</version>
+				<configuration>
+					<from>
+						<image>eclipse-temurin:24-jre</image>
+					</from>
+					<to>
+						<image>sorinpopteanu/${project.artifactId}</image>
+					</to>
 				</configuration>
 			</plugin>
 		</plugins>
