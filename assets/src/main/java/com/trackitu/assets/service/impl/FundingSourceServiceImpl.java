@@ -73,4 +73,16 @@ public class FundingSourceServiceImpl implements IFundingSourceService {
     }
     return isUpdated;
   }
+
+  /**
+   * @param id - Input funding source id
+   * @return boolean indicating if the deletion of the Funding Source is successful or not
+   */
+  @Override
+  public boolean deleteFundingSource(Long id) {
+    FundingSource fundingSource = fundingSourceRepository.findById(id).orElseThrow(
+        () -> new ResourceNotFoundException("Funding Source", "id", id.toString()));
+    fundingSourceRepository.deleteById(fundingSource.getId());
+    return true;
+  }
 }

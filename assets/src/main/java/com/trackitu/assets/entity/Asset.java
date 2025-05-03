@@ -11,7 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +29,7 @@ public class Asset extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "asset_id")
+  @Column(name = "id")
   private Long id;
 
   private String inventoryNumber;
@@ -42,7 +42,7 @@ public class Asset extends BaseEntity {
   @JoinColumn(name = "funding_source_id")
   private FundingSource fundingSource;
 
-  private LocalDateTime acquisitionDate;
+  private LocalDate acquisitionDate;
 
   private double price;
 

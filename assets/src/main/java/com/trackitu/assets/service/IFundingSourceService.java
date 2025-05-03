@@ -24,4 +24,10 @@ public interface IFundingSourceService {
    * @return boolean indicating if the update of the Funding Source details is successful or not
    */
   boolean updateFundingSourceDetails(@Valid UpdateFundingSourceDto updateFundingSourceDto);
+
+  /**
+   * @param id - Input funding source id
+   * @return boolean indicating if the deletion of the Funding Source is successful or not
+   */
+  boolean deleteFundingSource(Long id);
 }

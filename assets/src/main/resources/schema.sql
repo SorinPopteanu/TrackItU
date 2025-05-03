@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `asset_types` (
     );
 
 CREATE TABLE IF NOT EXISTS `assets` (
-    `id` int PRIMARY KEY,
+    `id` int AUTO_INCREMENT PRIMARY KEY,
     `inventory_number` varchar(20) UNIQUE NOT NULL,
     `asset_type_id` int NOT NULL,
     `funding_source_id` int,

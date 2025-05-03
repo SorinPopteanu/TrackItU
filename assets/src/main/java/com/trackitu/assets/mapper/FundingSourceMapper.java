@@ -12,9 +12,8 @@ public class FundingSourceMapper {
     return fundingSource;
   }
 
-  public static FundingSource mapToFundingSource(UpdateFundingSourceDto updateFundingSourceDto, FundingSource fundingSource) {
+  public static void mapToFundingSource(UpdateFundingSourceDto updateFundingSourceDto, FundingSource fundingSource) {
     fundingSource.setName(updateFundingSourceDto.getName());
-    return fundingSource;
   }
 
   public static FetchFundingSourceDto mapToFetchFundingSourceDto(FundingSource fundingSource, FetchFundingSourceDto fetchFundingSourceDto) {

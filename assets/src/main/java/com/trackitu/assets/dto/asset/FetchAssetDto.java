@@ -1,13 +1,15 @@
-package com.trackitu.assets.dto;
+package com.trackitu.assets.dto.asset;
 
 import com.trackitu.assets.entity.AssetType;
 import com.trackitu.assets.entity.FundingSource;
 import com.trackitu.assets.enums.Status;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import lombok.Data;
 
 @Data
-public class AssetDto {
+public class FetchAssetDto {
+
+  private Long id;
 
   private String inventoryNumber;
 
@@ -15,7 +17,7 @@ public class AssetDto {
 
   private FundingSource fundingSource;
 
-  private LocalDateTime acquisitionDate;
+  private LocalDate acquisitionDate;
 
   private double price;
 
