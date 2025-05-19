@@ -1,4 +1,4 @@
-package com.trackitu.rooms.dto;
+package com.trackitu.rooms.dto.room_professor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.JoinColumn;
@@ -10,7 +10,7 @@ import lombok.Data;
     description = "Schema to hold Room-Professor allocation information"
 )
 @Data
-public class RoomProfessorDto {
+public class CreateRoomProfessorDto {
 
   @Schema(
       description = "Room ID", example = "15"

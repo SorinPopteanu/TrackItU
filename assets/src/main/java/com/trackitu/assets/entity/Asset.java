@@ -35,11 +35,11 @@ public class Asset extends BaseEntity {
   private String inventoryNumber;
 
   @ManyToOne
-  @JoinColumn(name = "asset_type_id")
+  @JoinColumn(name = "asset_type_id", referencedColumnName = "id")
   private AssetType assetType;
 
   @ManyToOne
-  @JoinColumn(name = "funding_source_id")
+  @JoinColumn(name = "funding_source_id", referencedColumnName = "id")
   private FundingSource fundingSource;
 
   private LocalDate acquisitionDate;

@@ -1,5 +1,6 @@
-package com.trackitu.accounts.dto;
+package com.trackitu.accounts.dto.accounts;
 
+import com.trackitu.accounts.dto.customer.CustomerDto;
 import com.trackitu.accounts.enums.AccountStatus;
 import com.trackitu.accounts.enums.AccountType;
 import io.swagger.v3.oas.annotations.media.Schema;

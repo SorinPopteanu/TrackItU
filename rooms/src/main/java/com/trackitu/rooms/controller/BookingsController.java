@@ -1,9 +1,11 @@
 package com.trackitu.rooms.controller;
 
 import com.trackitu.rooms.constants.RoomsConstants;
-import com.trackitu.rooms.dto.BookingDto;
+import com.trackitu.rooms.dto.booking.CreateBookingDto;
 import com.trackitu.rooms.dto.ErrorResponseDto;
 import com.trackitu.rooms.dto.ResponseDto;
+import com.trackitu.rooms.dto.booking.FetchBookingDto;
+import com.trackitu.rooms.dto.booking.UpdateBookingDto;
 import com.trackitu.rooms.service.IBookingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(
@@ -52,8 +55,8 @@ public class BookingsController {
       )
   )
   @PostMapping("/create")
-  public ResponseEntity<ResponseDto> createBooking(@Valid @RequestBody BookingDto bookingDto) {
-    iBookingsService.createBooking(bookingDto);
+  public ResponseEntity<ResponseDto> createBooking(@Valid @RequestBody CreateBookingDto createBookingDto) {
+    iBookingsService.createBooking(createBookingDto);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(new ResponseDto(RoomsConstants.STATUS_201, RoomsConstants.MESSAGE_201));
   }
@@ -74,9 +77,9 @@ public class BookingsController {
       )
   )
   @GetMapping("/fetchAll")
-  public ResponseEntity<List<BookingDto>> fetchAllBookings() {
-    List<BookingDto> bookingDtoList = iBookingsService.fetchAllBookings();
-    return ResponseEntity.status(HttpStatus.OK).body(bookingDtoList);
+  public ResponseEntity<List<FetchBookingDto>> fetchAllBookings() {
+    List<FetchBookingDto> fetchBookingDtoList = iBookingsService.fetchAllBookings();
+    return ResponseEntity.status(HttpStatus.OK).body(fetchBookingDtoList);
   }
 
   @Operation(
@@ -95,8 +98,8 @@ public class BookingsController {
       )
   )
   @PutMapping("/updateStatus")
-  public ResponseEntity<ResponseDto> updateBookingStatus(@RequestBody BookingDto bookingDto) {
-    boolean isUpdated = iBookingsService.updateBookingStatus(bookingDto);
+  public ResponseEntity<ResponseDto> updateStatus(@RequestBody UpdateBookingDto updateBookingDto) {
+    boolean isUpdated = iBookingsService.updateStatus(updateBookingDto);
     if (isUpdated) {
       return ResponseEntity.status(HttpStatus.OK)
           .body(new ResponseDto(RoomsConstants.STATUS_200, RoomsConstants.MESSAGE_200));
@@ -122,8 +125,8 @@ public class BookingsController {
       )
   )
   @DeleteMapping("/delete")
-  public ResponseEntity<ResponseDto> deleteBooking(@RequestBody BookingDto bookingDto) {
-    boolean isDeleted = iBookingsService.deleteBooking(bookingDto);
+  public ResponseEntity<ResponseDto> deleteBooking(@RequestParam Long id) {
+    boolean isDeleted = iBookingsService.deleteBooking(id);
     if (isDeleted) {
       return ResponseEntity.status(HttpStatus.OK)
           .body(new ResponseDto(RoomsConstants.STATUS_200, RoomsConstants.MESSAGE_200));

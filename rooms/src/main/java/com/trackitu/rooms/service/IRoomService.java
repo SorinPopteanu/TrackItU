@@ -1,31 +1,33 @@
 package com.trackitu.rooms.service;
 
-import com.trackitu.rooms.dto.RoomDto;
+import com.trackitu.rooms.dto.room.CreateRoomDto;
+import com.trackitu.rooms.dto.room.FetchRoomDto;
+import com.trackitu.rooms.dto.room.UpdateRoomDto;
 import java.util.List;
 
 public interface IRoomService {
 
   /**
-   * @param roomDto - RoomDto Object
+   * @param roomDto - CreateRoomDto Object
    */
-  void createRoom(RoomDto roomDto);
+  void createRoom(CreateRoomDto roomDto);
 
   /**
-   * @param roomId - Input room id
+   * @param id - Input room id
    * @return Room Details based on the room id
    */
-  RoomDto fetchRoomDetails(Long roomId);
+  FetchRoomDto fetchRoomDetails(Long id);
 
   /**
    * @return List of all the Rooms
    */
-  List<RoomDto> fetchAllRooms();
+  List<FetchRoomDto> fetchAllRooms();
 
   /**
-   * @param roomDto - RoomDto Object
+   * @param roomDto - UpdateRoomDto Object
    * @return boolean indicating if the update of the Room details is successful or not
    */
-  boolean updateRoomDetails(RoomDto roomDto);
+  boolean updateRoomDetails(UpdateRoomDto roomDto);
 
   /**
    * @param roomCode - Input room code

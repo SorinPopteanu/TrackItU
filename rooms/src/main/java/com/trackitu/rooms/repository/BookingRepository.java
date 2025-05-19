@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-  Optional<Booking> findByRoomIdAndBookingDateAndStartTimeAndEndTime(Long roomId,
-      LocalDate bookingDate, LocalTime startTime, LocalTime endTime);
+  Optional<Booking> findByRoomIdAndDateAndStartTimeAndEndTime(Long id,
+      LocalDate date, LocalTime startTime, LocalTime endTime);
 
 }

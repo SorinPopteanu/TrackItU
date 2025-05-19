@@ -2,7 +2,9 @@ package com.trackitu.rooms.controller;
 
 import com.trackitu.rooms.dto.ErrorResponseDto;
 import com.trackitu.rooms.dto.ResponseDto;
-import com.trackitu.rooms.dto.RoomDto;
+import com.trackitu.rooms.dto.room.CreateRoomDto;
+import com.trackitu.rooms.dto.room.FetchRoomDto;
+import com.trackitu.rooms.dto.room.UpdateRoomDto;
 import com.trackitu.rooms.service.IRoomService;
 import com.trackitu.rooms.constants.RoomsConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,7 +57,7 @@ public class RoomController {
       )
   )
   @PostMapping("/create")
-  public ResponseEntity<ResponseDto> createRoom(@Valid @RequestBody RoomDto roomDto) {
+  public ResponseEntity<ResponseDto> createRoom(@Valid @RequestBody CreateRoomDto roomDto) {
     iRoomService.createRoom(roomDto);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(new ResponseDto(RoomsConstants.STATUS_201, RoomsConstants.MESSAGE_201));
@@ -77,8 +79,8 @@ public class RoomController {
       )
   )
   @GetMapping("/fetch")
-  public ResponseEntity<RoomDto> fetchRoomDetails(@RequestParam Long roomId) {
-    RoomDto roomDto = iRoomService.fetchRoomDetails(roomId);
+  public ResponseEntity<FetchRoomDto> fetchRoomDetails(@RequestParam Long id) {
+    FetchRoomDto roomDto = iRoomService.fetchRoomDetails(id);
     return ResponseEntity.status(HttpStatus.OK).body(roomDto);
   }
 
@@ -98,8 +100,8 @@ public class RoomController {
       )
   )
   @GetMapping("/fetchAll")
-  public ResponseEntity<List<RoomDto>> fetchAllRooms() {
-    List<RoomDto> roomDtoList = iRoomService.fetchAllRooms();
+  public ResponseEntity<List<FetchRoomDto>> fetchAllRooms() {
+    List<FetchRoomDto> roomDtoList = iRoomService.fetchAllRooms();
     return ResponseEntity.status(HttpStatus.OK).body(roomDtoList);
   }
 
@@ -119,7 +121,7 @@ public class RoomController {
       )
   )
   @PutMapping("/update")
-  public ResponseEntity<ResponseDto> updateRoomDetails(@Valid @RequestBody RoomDto roomDto) {
+  public ResponseEntity<ResponseDto> updateRoomDetails(@Valid @RequestBody UpdateRoomDto roomDto) {
     boolean isUpdated = iRoomService.updateRoomDetails(roomDto);
     if (isUpdated) {
       return ResponseEntity.status(HttpStatus.OK)

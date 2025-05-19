@@ -1,6 +1,6 @@
 package com.trackitu.accounts.mapper;
 
-import com.trackitu.accounts.dto.AccountsDto;
+import com.trackitu.accounts.dto.accounts.AccountsDto;
 import com.trackitu.accounts.entity.Accounts;
 
 public class AccountsMapper {
@@ -12,10 +12,9 @@ public class AccountsMapper {
     return accountsDto;
   }
 
-  public static Accounts mapToAccounts(AccountsDto accountsDto, Accounts accounts) {
+  public static void mapToAccounts(AccountsDto accountsDto, Accounts accounts) {
     accounts.setAccountNumber(accountsDto.getAccountNumber());
     accounts.setAccountType(accountsDto.getAccountType());
     accounts.setAccountStatus(accountsDto.getAccountStatus());
-    return accounts;
   }
 }

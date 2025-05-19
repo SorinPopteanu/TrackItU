@@ -14,11 +14,12 @@ public class RoomProfessor extends BaseEntity{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "room_professor_id")
+  @Column(name = "id")
   private Long roomProfessorId;
 
-  @Column(name = "room_id")
-  private Long roomId;
+  @ManyToOne
+  @JoinColumn(name = "room_id", referencedColumnName = "id")
+  private Room room;
 
   @Column(name = "professor_id")
   private Long professorId;

@@ -1,30 +1,32 @@
 package com.trackitu.rooms.service;
 
-import com.trackitu.rooms.dto.BookingDto;
+import com.trackitu.rooms.dto.booking.CreateBookingDto;
+import com.trackitu.rooms.dto.booking.FetchBookingDto;
+import com.trackitu.rooms.dto.booking.UpdateBookingDto;
 import java.util.List;
 
 public interface IBookingService {
 
   /**
    * Create a booking
-   * @param bookingDto - Insert booking details
+   * @param createBookingDto - Insert booking details
    */
-  void createBooking(BookingDto bookingDto);
+  void createBooking(CreateBookingDto createBookingDto);
 
   /**
    * @return List of all the bookings
    */
-  List<BookingDto> fetchAllBookings();
+  List<FetchBookingDto> fetchAllBookings();
 
   /**
-   * @param bookingDto - BookingDto Object
+   * @param updateBookingDto - UpdateBookingDto Object
    * @return boolean indicating if the update of the booking status is successful or not
    */
-  boolean updateBookingStatus(BookingDto bookingDto);
+  boolean updateStatus(UpdateBookingDto updateBookingDto);
 
   /**
-   * @param bookingDto - Input BookingDto Object
+   * @param id - Input booking id
    * @return boolean indicating if the deletion of the booking is successful or not
    */
-  boolean deleteBooking(BookingDto bookingDto);
+  boolean deleteBooking(Long id);
 }

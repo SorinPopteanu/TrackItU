@@ -1,7 +1,7 @@
 package com.trackitu.assets.dto.asset;
 
-import com.trackitu.assets.entity.AssetType;
-import com.trackitu.assets.entity.FundingSource;
+import com.trackitu.assets.dto.asset_type.FetchAssetTypeDto;
+import com.trackitu.assets.dto.funding_source.FetchFundingSourceDto;
 import com.trackitu.assets.enums.Status;
 import java.time.LocalDate;
 import lombok.Data;
@@ -13,9 +13,9 @@ public class FetchAssetDto {
 
   private String inventoryNumber;
 
-  private AssetType assetType;
+  private FetchAssetTypeDto assetTypeDto;
 
-  private FundingSource fundingSource;
+  private FetchFundingSourceDto fundingSourceDto;
 
   private LocalDate acquisitionDate;
 

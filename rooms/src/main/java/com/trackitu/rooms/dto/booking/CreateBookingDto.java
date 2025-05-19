@@ -1,6 +1,6 @@
-package com.trackitu.rooms.dto;
+package com.trackitu.rooms.dto.booking;
 
-import com.trackitu.rooms.enums.BookingStatus;
+import com.trackitu.rooms.enums.Status;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ import lombok.Data;
     description = "Schema to hold Booking information"
 )
 @Data
-public class BookingDto {
+public class CreateBookingDto {
 
   @Schema(
       description = "Room ID", example = "15"
@@ -30,7 +30,7 @@ public class BookingDto {
       description = "Booking date", example = "2021-12-31"
   )
   @NotNull(message = "Booking date can not be a null or empty")
-  private LocalDate bookingDate;
+  private LocalDate date;
 
   @Schema(
       description = "Start time", example = "10:00"
@@ -48,6 +48,6 @@ public class BookingDto {
       description = "Booking status", example = "RESERVED"
   )
   @NotNull(message = "Booking status can not be a null or empty")
-  private BookingStatus bookingStatus;
+  private Status status;
 
 }

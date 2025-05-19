@@ -2,6 +2,8 @@ package com.trackitu.accounts.controller;
 
 import com.trackitu.accounts.constants.AccountsConstants;
 import com.trackitu.accounts.dto.*;
+import com.trackitu.accounts.dto.accounts.CreateAccountDto;
+import com.trackitu.accounts.dto.accounts.FetchCustomerAccountDto;
 import com.trackitu.accounts.service.IAccountsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -69,10 +71,10 @@ public class AccountsController {
       )
   )
   @GetMapping("/fetch")
-  public ResponseEntity<CustomerAccountDto> fetchAccountDetails(
+  public ResponseEntity<FetchCustomerAccountDto> fetchAccountDetails(
       @Email(message = "Email address is not valid") @RequestParam String email) {
-    CustomerAccountDto customerAccountDto = iAccountsService.fetchAccountDetails(email);
-    return ResponseEntity.status(HttpStatus.OK).body(customerAccountDto);
+    FetchCustomerAccountDto fetchCustomerAccountDto = iAccountsService.fetchAccountDetails(email);
+    return ResponseEntity.status(HttpStatus.OK).body(fetchCustomerAccountDto);
   }
 
   @Operation(
@@ -91,9 +93,9 @@ public class AccountsController {
       )
   )
   @GetMapping("/fetchAll")
-  public ResponseEntity<List<CustomerAccountDto>> fetchAllAccounts() {
-    List<CustomerAccountDto> customerAccountDtoList = iAccountsService.fetchAllAccounts();
-    return ResponseEntity.status(HttpStatus.OK).body(customerAccountDtoList);
+  public ResponseEntity<List<FetchCustomerAccountDto>> fetchAllAccounts() {
+    List<FetchCustomerAccountDto> fetchCustomerAccountDtoList = iAccountsService.fetchAllAccounts();
+    return ResponseEntity.status(HttpStatus.OK).body(fetchCustomerAccountDtoList);
   }
 
   @Operation(
@@ -113,8 +115,8 @@ public class AccountsController {
   )
   @PutMapping("/update")
   public ResponseEntity<ResponseDto> updateAccountDetails(
-      @Valid @RequestBody CustomerAccountDto customerAccountDto) {
-    boolean isUpdated = iAccountsService.updateAccount(customerAccountDto);
+      @Valid @RequestBody FetchCustomerAccountDto fetchCustomerAccountDto) {
+    boolean isUpdated = iAccountsService.updateAccount(fetchCustomerAccountDto);
     if (isUpdated) {
       return ResponseEntity.status(HttpStatus.OK)
           .body(new ResponseDto(AccountsConstants.STATUS_200, AccountsConstants.MESSAGE_200));

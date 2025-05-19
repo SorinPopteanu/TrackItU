@@ -3,6 +3,8 @@ package com.trackitu.assets.mapper;
 import com.trackitu.assets.dto.asset.CreateAssetDto;
 import com.trackitu.assets.dto.asset.FetchAssetDto;
 import com.trackitu.assets.dto.asset.UpdateAssetDto;
+import com.trackitu.assets.dto.asset_type.FetchAssetTypeDto;
+import com.trackitu.assets.dto.funding_source.FetchFundingSourceDto;
 import com.trackitu.assets.entity.Asset;
 import com.trackitu.assets.entity.AssetType;
 import com.trackitu.assets.entity.FundingSource;
@@ -33,8 +35,8 @@ public class AssetMapper {
   public static FetchAssetDto mapToFetchAssetDto(Asset asset, FetchAssetDto fetchAssetDto) {
     fetchAssetDto.setId(asset.getId());
     fetchAssetDto.setInventoryNumber(asset.getInventoryNumber());
-    fetchAssetDto.setAssetType(asset.getAssetType());
-    fetchAssetDto.setFundingSource(asset.getFundingSource());
+    fetchAssetDto.setAssetTypeDto(AssetTypeMapper.mapToFetchAssetTypeDto(asset.getAssetType(), new FetchAssetTypeDto()));
+    fetchAssetDto.setFundingSourceDto(FundingSourceMapper.mapToFetchFundingSourceDto(asset.getFundingSource(), new FetchFundingSourceDto()));
     fetchAssetDto.setAcquisitionDate(asset.getAcquisitionDate());
     fetchAssetDto.setPrice(asset.getPrice());
     fetchAssetDto.setRoomCode(asset.getRoomCode());

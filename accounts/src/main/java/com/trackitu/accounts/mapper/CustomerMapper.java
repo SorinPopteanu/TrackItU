@@ -1,6 +1,6 @@
 package com.trackitu.accounts.mapper;
 
-import com.trackitu.accounts.dto.CustomerDto;
+import com.trackitu.accounts.dto.customer.CustomerDto;
 import com.trackitu.accounts.entity.Customer;
 
 public class CustomerMapper {
