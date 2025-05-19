@@ -1,6 +1,6 @@
 package com.trackitu.rooms.entity;
 
-import com.trackitu.rooms.enums.BookingStatus;
+import com.trackitu.rooms.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -17,17 +17,18 @@ public class Booking extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "booking_id")
-  private Long bookingId;
+  @Column(name = "id")
+  private Long id;
 
-  @Column(name = "room_id")
-  private Long roomId;
+  @ManyToOne
+  @JoinColumn(name = "room_id", referencedColumnName = "id")
+  private Room room;
 
   @Column(name = "customer_id")
   private Long customerId;
 
-  @Column(name = "booking_date")
-  private LocalDate bookingDate;
+  @Column(name = "date")
+  private LocalDate date;
 
   @Column(name = "start_time")
   private LocalTime startTime;
@@ -35,7 +36,7 @@ public class Booking extends BaseEntity {
   @Column(name = "end_time")
   private LocalTime endTime;
 
-  @Column(name = "booking_status")
+  @Column(name = "status")
   @Enumerated(EnumType.STRING)
-  private BookingStatus bookingStatus;
+  private Status status;
 }

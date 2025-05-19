@@ -1,4 +1,4 @@
-package com.trackitu.accounts.dto;
+package com.trackitu.accounts.dto.customer;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;

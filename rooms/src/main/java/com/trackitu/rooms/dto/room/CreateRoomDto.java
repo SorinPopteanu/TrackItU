@@ -1,4 +1,4 @@
-package com.trackitu.rooms.dto;
+package com.trackitu.rooms.dto.room;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +10,7 @@ import lombok.Data;
     description = "Schema to hold Room information"
 )
 @Data
-public class RoomDto {
+public class CreateRoomDto {
 
   @Schema(
       description = "Room code", example = "EB212"
@@ -22,6 +22,6 @@ public class RoomDto {
   @Schema(
       description = "Room name", example = "Informatics Lab"
   )
-  private String roomName;
+  private String name;
 
 }

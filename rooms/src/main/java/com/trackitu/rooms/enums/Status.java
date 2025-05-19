@@ -1,5 +1,5 @@
 package com.trackitu.rooms.enums;
 
-public enum BookingStatus {
+public enum Status {
     RESERVED, PENDING
 }

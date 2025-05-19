@@ -1,11 +1,15 @@
 package com.trackitu.rooms.service.impl;
 
-import com.trackitu.rooms.dto.BookingDto;
+import com.trackitu.rooms.dto.booking.CreateBookingDto;
+import com.trackitu.rooms.dto.booking.FetchBookingDto;
+import com.trackitu.rooms.dto.booking.UpdateBookingDto;
 import com.trackitu.rooms.entity.Booking;
+import com.trackitu.rooms.entity.Room;
 import com.trackitu.rooms.exception.BookingAlreadyExistsException;
 import com.trackitu.rooms.exception.ResourceNotFoundException;
 import com.trackitu.rooms.mapper.BookingMapper;
 import com.trackitu.rooms.repository.BookingRepository;
+import com.trackitu.rooms.repository.RoomRepository;
 import com.trackitu.rooms.service.IBookingService;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,23 +22,27 @@ import org.springframework.stereotype.Service;
 public class BookingServiceImpl implements IBookingService {
 
   private BookingRepository bookingRepository;
+  private RoomRepository roomRepository;
 
   /**
    * Create a booking
    *
-   * @param bookingDto - Insert booking details
+   * @param createBookingDto - Insert booking details
    */
   @Override
-  public void createBooking(BookingDto bookingDto) {
-    Booking booking = BookingMapper.mapToBookings(bookingDto, new Booking());
-    Optional<Booking> optionalBooking = bookingRepository.findByRoomIdAndBookingDateAndStartTimeAndEndTime(
-        bookingDto.getRoomId(), bookingDto.getBookingDate(), bookingDto.getStartTime(),
-        bookingDto.getEndTime());
+  public void createBooking(CreateBookingDto createBookingDto) {
+    Room room = roomRepository.findById(createBookingDto.getRoomId()).orElseThrow(
+        () -> new ResourceNotFoundException("Room", "id",
+            createBookingDto.getRoomId().toString()));
+    Booking booking = BookingMapper.mapToBooking(createBookingDto, new Booking(), room);
+    Optional<Booking> optionalBooking = bookingRepository.findByRoomIdAndDateAndStartTimeAndEndTime(
+        createBookingDto.getRoomId(), createBookingDto.getDate(), createBookingDto.getStartTime(),
+        createBookingDto.getEndTime());
     if (optionalBooking.isPresent()) {
       throw new BookingAlreadyExistsException(String.format(
           "Booking already exists for room id: %s, booking date: %s, start time: %s, end time: %s",
-          bookingDto.getRoomId(), bookingDto.getBookingDate(), bookingDto.getStartTime(),
-          bookingDto.getEndTime()));
+          createBookingDto.getRoomId(), createBookingDto.getDate(), createBookingDto.getStartTime(),
+          createBookingDto.getEndTime()));
     } else {
       bookingRepository.save(booking);
     }
@@ -44,35 +52,28 @@ public class BookingServiceImpl implements IBookingService {
    * @return List of all the bookings
    */
   @Override
-  public List<BookingDto> fetchAllBookings() {
+  public List<FetchBookingDto> fetchAllBookings() {
     List<Booking> bookingList = bookingRepository.findAll();
-    List<BookingDto> bookingDtoList = new ArrayList<>();
+    List<FetchBookingDto> fetchBookingDtoList = new ArrayList<>();
 
     for (Booking booking : bookingList) {
-      bookingDtoList.add(BookingMapper.mapToBookingsDto(booking, new BookingDto()));
+      fetchBookingDtoList.add(BookingMapper.mapToFetchBookingDto(booking, new FetchBookingDto()));
     }
-    return bookingDtoList;
+    return fetchBookingDtoList;
   }
 
   /**
-   * @param bookingDto - BookingDto Object
+   * @param updateBookingDto - CreateBookingDto Object
    * @return boolean indicating if the update of the booking status is successful or not
    */
   @Override
-  public boolean updateBookingStatus(BookingDto bookingDto) {
+  public boolean updateStatus(UpdateBookingDto updateBookingDto) {
     boolean isUpdated = false;
-    if (bookingDto != null) {
-      ArrayList<String> details = new ArrayList<>();
-      details.add(bookingDto.getRoomId().toString());
-      details.add(bookingDto.getBookingDate().toString());
-      details.add(bookingDto.getStartTime().toString());
-      details.add(bookingDto.getEndTime().toString());
-      Booking booking = bookingRepository.findByRoomIdAndBookingDateAndStartTimeAndEndTime(
-              bookingDto.getRoomId(), bookingDto.getBookingDate(), bookingDto.getStartTime(),
-              bookingDto.getEndTime())
-          .orElseThrow(() -> new ResourceNotFoundException("Booking", "given information",
-              details.toString()));
-      BookingMapper.mapToBookings(bookingDto, booking);
+    if (updateBookingDto != null) {
+      Booking booking = bookingRepository.findById(updateBookingDto.getId()).orElseThrow(
+          () -> new ResourceNotFoundException("Booking", "id",
+              updateBookingDto.getId().toString()));
+      BookingMapper.mapToBooking(updateBookingDto, booking);
       bookingRepository.save(booking);
       isUpdated = true;
     }
@@ -80,25 +81,14 @@ public class BookingServiceImpl implements IBookingService {
   }
 
   /**
-   * @param bookingDto - Input BookingDto Object
+   * @param id - Input booking id
    * @return boolean indicating if the deletion of the booking is successful or not
    */
   @Override
-  public boolean deleteBooking(BookingDto bookingDto) {
-    Optional<Booking> optionalBooking = bookingRepository.findByRoomIdAndBookingDateAndStartTimeAndEndTime(
-        bookingDto.getRoomId(), bookingDto.getBookingDate(), bookingDto.getStartTime(),
-        bookingDto.getEndTime());
-    if (optionalBooking.isPresent()) {
-      bookingRepository.deleteById(optionalBooking.get().getBookingId());
-      return true;
-    } else {
-      ArrayList<String> details = new ArrayList<>();
-      details.add(bookingDto.getRoomId().toString());
-      details.add(bookingDto.getBookingDate().toString());
-      details.add(bookingDto.getStartTime().toString());
-      details.add(bookingDto.getEndTime().toString());
-      throw new ResourceNotFoundException("Booking", "given information", details.toString());
-    }
+  public boolean deleteBooking(Long id) {
+    Booking booking = bookingRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Booking", "id", id.toString()));
+    bookingRepository.deleteById(booking.getId());
+    return true;
   }
-
 }

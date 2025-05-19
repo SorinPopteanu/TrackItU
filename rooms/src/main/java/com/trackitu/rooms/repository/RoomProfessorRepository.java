@@ -15,12 +15,12 @@ public interface RoomProfessorRepository extends JpaRepository<RoomProfessor, Lo
 
   Optional<RoomProfessor> findByRoomProfessorId(Long roomProfessorId);
 
-//  @Query("SELECT rp FROM RoomProfessor rp WHERE rp.roomId = :roomId AND rp.professorId = :professorId")
-//  Optional<RoomProfessor> findByRoomIdAndProfessorId(@Param("roomId") Long roomId, @Param("professorId") Long professorId);
+//  @Query("SELECT rp FROM RoomProfessor rp WHERE rp.id = :id AND rp.professorId = :professorId")
+//  Optional<RoomProfessor> findByRoomIdAndProfessorId(@Param("id") Long id, @Param("professorId") Long professorId);
 
-  Optional<RoomProfessor> findByRoomIdAndProfessorId(Long roomId, Long professorId);
+  Optional<RoomProfessor> findByRoomIdAndProfessorId(Long id, Long professorId);
 
-  List<RoomProfessor> findByRoomId(Long roomId);
+  List<RoomProfessor> findByRoomId(Long id);
 
   List<RoomProfessor> findByProfessorId(Long professorId);
 

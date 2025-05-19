@@ -3,7 +3,9 @@ package com.trackitu.rooms.controller;
 import com.trackitu.rooms.constants.RoomsConstants;
 import com.trackitu.rooms.dto.ErrorResponseDto;
 import com.trackitu.rooms.dto.ResponseDto;
-import com.trackitu.rooms.dto.RoomProfessorDto;
+import com.trackitu.rooms.dto.room_professor.CreateRoomProfessorDto;
+import com.trackitu.rooms.dto.room_professor.FetchRoomProfessorDto;
+import com.trackitu.rooms.dto.room_professor.UpdateRoomProfessorDto;
 import com.trackitu.rooms.service.IRoomProfessorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,8 +57,8 @@ public class RoomProfessorController {
   )
   @PostMapping("/create")
   public ResponseEntity<ResponseDto> createRoomProfessor(
-      @Valid @RequestBody RoomProfessorDto roomProfessorDto) {
-    iRoomProfessorService.createRoomProfessor(roomProfessorDto);
+      @Valid @RequestBody CreateRoomProfessorDto createRoomProfessorDto) {
+    iRoomProfessorService.createRoomProfessor(createRoomProfessorDto);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(new ResponseDto(RoomsConstants.STATUS_201, RoomsConstants.MESSAGE_201));
   }
@@ -76,11 +79,11 @@ public class RoomProfessorController {
       )
   )
   @GetMapping("/fetchByRoomId")
-  public ResponseEntity<List<RoomProfessorDto>> fetchProfessorByRoomId(
-      @Valid @RequestParam Long roomId) {
-    List<RoomProfessorDto> roomProfessorDtoList = iRoomProfessorService.fetchProfessorByRoomId(
-        roomId);
-    return ResponseEntity.status(HttpStatus.OK).body(roomProfessorDtoList);
+  public ResponseEntity<List<FetchRoomProfessorDto>> fetchProfessorByRoomId(
+      @Valid @RequestParam Long id) {
+    List<FetchRoomProfessorDto> fetchRoomProfessorDtoList = iRoomProfessorService.fetchProfessorByRoomId(
+        id);
+    return ResponseEntity.status(HttpStatus.OK).body(fetchRoomProfessorDtoList);
   }
 
   @Operation(
@@ -99,11 +102,11 @@ public class RoomProfessorController {
       )
   )
   @GetMapping("/fetchByProfessorId")
-  public ResponseEntity<List<RoomProfessorDto>> fetchRoomByProfessorId(
+  public ResponseEntity<List<FetchRoomProfessorDto>> fetchRoomByProfessorId(
       @Valid @RequestParam Long professorId) {
-    List<RoomProfessorDto> roomProfessorDtoList = iRoomProfessorService.fetchRoomByProfessorId(
+    List<FetchRoomProfessorDto> fetchRoomProfessorDtoList = iRoomProfessorService.fetchRoomByProfessorId(
         professorId);
-    return ResponseEntity.status(HttpStatus.OK).body(roomProfessorDtoList);
+    return ResponseEntity.status(HttpStatus.OK).body(fetchRoomProfessorDtoList);
   }
 
   @Operation(
@@ -122,9 +125,21 @@ public class RoomProfessorController {
       )
   )
   @GetMapping("/fetchAll")
-  public ResponseEntity<List<RoomProfessorDto>> fetchAllRoomProfessor() {
-    List<RoomProfessorDto> roomProfessorDtoList = iRoomProfessorService.fetchAllRoomProfessor();
-    return ResponseEntity.status(HttpStatus.OK).body(roomProfessorDtoList);
+  public ResponseEntity<List<FetchRoomProfessorDto>> fetchAllRoomProfessor() {
+    List<FetchRoomProfessorDto> fetchRoomProfessorDtoList = iRoomProfessorService.fetchAllRoomProfessor();
+    return ResponseEntity.status(HttpStatus.OK).body(fetchRoomProfessorDtoList);
+  }
+
+  @PutMapping("/update")
+  public ResponseEntity<ResponseDto> updateDetails(@RequestBody UpdateRoomProfessorDto updateRoomProfessorDto) {
+    boolean isUpdated = iRoomProfessorService.updateRoomProfessor(updateRoomProfessorDto);
+    if (isUpdated) {
+      return ResponseEntity.status(HttpStatus.OK)
+          .body(new ResponseDto(RoomsConstants.STATUS_200, RoomsConstants.MESSAGE_200));
+    } else {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ResponseDto(RoomsConstants.STATUS_500, RoomsConstants.MESSAGE_500));
+    }
   }
 
   @Operation(
@@ -144,8 +159,8 @@ public class RoomProfessorController {
   )
   @DeleteMapping("/delete")
   public ResponseEntity<ResponseDto> deleteRoomProfessorAllocation(
-      @Valid @RequestParam Long roomProfessorId) {
-    boolean isDeleted = iRoomProfessorService.deleteRoomProfessor(roomProfessorId);
+      @Valid @RequestParam Long id) {
+    boolean isDeleted = iRoomProfessorService.deleteRoomProfessor(id);
     if (isDeleted) {
       return ResponseEntity.status(HttpStatus.OK)
           .body(new ResponseDto(RoomsConstants.STATUS_200, RoomsConstants.MESSAGE_200));

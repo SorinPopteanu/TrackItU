@@ -1,5 +1,6 @@
-package com.trackitu.accounts.dto;
+package com.trackitu.accounts.dto.accounts;
 
+import com.trackitu.accounts.dto.customer.CustomerDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +11,7 @@ import lombok.Data;
     description = "Schema to hold Customer and Account information"
 )
 @Data
-public class CustomerAccountDto {
+public class FetchCustomerAccountDto {
 
   @Schema(
       description = "Customer information"
