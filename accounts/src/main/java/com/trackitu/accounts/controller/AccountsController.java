@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,7 @@ public class AccountsController {
   private final AccountsContactInfoDto accountsContactInfoDto;
   private final IAccountsService iAccountsService;
   private final Environment environment;
+  private final Logger logger = LoggerFactory.getLogger(AccountsController.class);
 
   public AccountsController(IAccountsService iAccountsService, AccountsContactInfoDto accountsContactInfoDto, Environment environment) {
     this.iAccountsService = iAccountsService;
@@ -123,6 +126,7 @@ public class AccountsController {
   @ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/contact-info")
   public ResponseEntity<AccountsContactInfoDto> getContactInfo() {
+    logger.info("Invoked contact-info endpoint to fetch contact information");
     return ResponseEntity.status(HttpStatus.OK).body(accountsContactInfoDto);
   }
 

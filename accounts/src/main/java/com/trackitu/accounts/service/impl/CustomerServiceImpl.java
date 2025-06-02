@@ -44,7 +44,9 @@ public class CustomerServiceImpl implements ICustomerService {
 
     ResponseEntity<List<FetchRoomProfessorDto>> roomProfessorDtoResponseEntity = roomsFeignClient.fetchRoomByProfessorId(correlationId,
         customer.getId());
-    fetchCustomerDetailsDto.setRoomProfessorDto(roomProfessorDtoResponseEntity.getBody());
+    if (roomProfessorDtoResponseEntity != null){
+      fetchCustomerDetailsDto.setRoomProfessorDto(roomProfessorDtoResponseEntity.getBody());
+    }
 
     return fetchCustomerDetailsDto;
   }
