@@ -100,13 +100,13 @@ public class AssetTypeServiceImpl implements IAssetTypeService {
       assetRoomProfessorDto.setStatus(asset.getStatus());
 
       ResponseEntity<List<RoomProfessorDto>> roomProfessorDtoResponseEntity = roomsFeignClient.fetchProfessorByRoomId(asset.getRoomId());
-      if (roomProfessorDtoResponseEntity.getBody() != null) {
+      if (roomProfessorDtoResponseEntity != null && roomProfessorDtoResponseEntity.getBody() != null) {
         List<CustomerDto> customerDtoList = new ArrayList<>();
         for (RoomProfessorDto roomProfessorDto : roomProfessorDtoResponseEntity.getBody()) {
           assetRoomProfessorDto.setRoomCode(roomProfessorDto.getRoomDto().getRoomCode());
 
           ResponseEntity<CustomerDto> customerDtoResponseEntity = accountsFeignClient.fetchCustomer(roomProfessorDto.getProfessorId());
-          if (customerDtoResponseEntity.getBody() != null) {
+          if (customerDtoResponseEntity != null && customerDtoResponseEntity.getBody() != null) {
             customerDtoList.add(customerDtoResponseEntity.getBody());
           }
         }
@@ -115,7 +115,6 @@ public class AssetTypeServiceImpl implements IAssetTypeService {
       }
     }
 
-    // Set the list in the DTO
     fetchAssetRoomProfessorDto.setAssetRoomProfessorList(assetRoomProfessorDtoList);
 
     return fetchAssetRoomProfessorDto;

@@ -60,3 +60,12 @@ info:
     name: "assets"
     description: "TrackItU Assets Application"
     version: "1.0.0"
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
