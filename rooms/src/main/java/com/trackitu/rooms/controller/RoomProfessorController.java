@@ -15,6 +15,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,18 +26,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "CRUD REST APIs for Room-Professor Allocation", description = "CRUD REST APIs for managing room-professor allocation")
 @RestController
-@RequestMapping(path = "/api/v1/rooms/allocation", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = "/api/v1/allocation", produces = {MediaType.APPLICATION_JSON_VALUE})
 @AllArgsConstructor
 @Validated
 public class RoomProfessorController {
 
   private IRoomProfessorService iRoomProfessorService;
+  private static final Logger logger = LoggerFactory.getLogger(RoomProfessorController.class);
 
   @Operation(summary = "Create Room-Professor Allocation REST API", description = "Create a new room-professor allocation")
   @ApiResponse(responseCode = "201", description = "HTTP Status CREATED")
@@ -64,7 +68,9 @@ public class RoomProfessorController {
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetchByProfessorId")
   public ResponseEntity<List<FetchRoomProfessorDto>> fetchRoomByProfessorId(
+      @RequestHeader("trackItU-correlation-id") String correlationId,
       @Valid @RequestParam Long professorId) {
+    logger.debug("trackItU-correlation-id found: {}", correlationId);
     List<FetchRoomProfessorDto> fetchRoomProfessorDtoList = iRoomProfessorService.fetchRoomByProfessorId(
         professorId);
     return ResponseEntity.status(HttpStatus.OK).body(fetchRoomProfessorDtoList);

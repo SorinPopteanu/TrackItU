@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/api/v1/assets/funding-source")
+@RequestMapping(path = "/api/v1/funding-source")
 @AllArgsConstructor
 @Validated
 public class FundingSourceController {

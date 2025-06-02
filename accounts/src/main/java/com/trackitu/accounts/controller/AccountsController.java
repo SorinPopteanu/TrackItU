@@ -23,7 +23,7 @@ import java.util.List;
 
 @Tag(name = "CRUD REST APIs for Accounts", description = "CRUD REST APIs for managing customer accounts")
 @RestController
-@RequestMapping(path = "/api/v1/accounts", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = "/api/v1", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
 public class AccountsController {
 

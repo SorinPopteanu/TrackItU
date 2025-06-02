@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/assets/asset-type")
+@RequestMapping("/api/v1/asset-type")
 @AllArgsConstructor
 @Validated
 public class AssetTypeController {
