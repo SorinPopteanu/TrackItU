@@ -1,6 +1,7 @@
 package com.trackitu.assets.controller;
 
 import com.trackitu.assets.constants.AssetsConstants;
+import com.trackitu.assets.dto.asset.FetchAssetRoomProfessorDto;
 import com.trackitu.assets.dto.asset_type.CreateAssetTypeDto;
 import com.trackitu.assets.dto.ResponseDto;
 import com.trackitu.assets.dto.asset_type.FetchAssetTypeDto;
@@ -48,6 +49,13 @@ public class AssetTypeController {
     List<FetchAssetTypeDto> assetTypeDtoList = iAssetTypeService.fetchAllAssetTypes();
     return ResponseEntity.status(HttpStatus.OK).body(assetTypeDtoList);
   }
+
+  @GetMapping("fetchRoomProfessor")
+  public ResponseEntity<FetchAssetRoomProfessorDto> fetchRoomProfessor(@RequestParam Long id) {
+    FetchAssetRoomProfessorDto fetchAssetRoomProfessorDto = iAssetTypeService.fetchAssetRoomProfessor(id);
+    return ResponseEntity.status(HttpStatus.OK).body(fetchAssetRoomProfessorDto);
+  }
+
 
   @PutMapping("/update")
   public ResponseEntity<ResponseDto> updateAssetTypeDetails(

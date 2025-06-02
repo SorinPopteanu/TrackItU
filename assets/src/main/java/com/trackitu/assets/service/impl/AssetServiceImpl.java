@@ -44,8 +44,7 @@ public class AssetServiceImpl implements IAssetService {
         asset.getInventoryNumber());
     if (optionalAsset.isPresent()) {
       throw new AssetAlreadyExistsException(
-          "Asset already exists with inventory number: "
-              + createAssetDto.getInventoryNumber());
+          "Asset already exists with inventory number: " + createAssetDto.getInventoryNumber());
     } else {
       assetRepository.save(asset);
     }
@@ -60,8 +59,7 @@ public class AssetServiceImpl implements IAssetService {
     List<FetchAssetDto> assetDtoList = new ArrayList<>();
 
     for (Asset asset : assetList) {
-      assetDtoList.add(
-          AssetMapper.mapToFetchAssetDto(asset, new FetchAssetDto()));
+      assetDtoList.add(AssetMapper.mapToFetchAssetDto(asset, new FetchAssetDto()));
     }
     return assetDtoList;
   }
@@ -75,9 +73,8 @@ public class AssetServiceImpl implements IAssetService {
     boolean isUpdated = false;
     if (updateAssetDto != null) {
       AssetType assetType = assetTypeRepository.findById(updateAssetDto.getAssetTypeId())
-          .orElseThrow(
-              () -> new ResourceNotFoundException("Asset type", "id",
-                  updateAssetDto.getAssetTypeId().toString()));
+          .orElseThrow(() -> new ResourceNotFoundException("Asset type", "id",
+              updateAssetDto.getAssetTypeId().toString()));
       FundingSource fundingSource = fundingSourceRepository.findById(
           updateAssetDto.getFundingSourceId()).orElseThrow(
           () -> new ResourceNotFoundException("Funding source", "id",

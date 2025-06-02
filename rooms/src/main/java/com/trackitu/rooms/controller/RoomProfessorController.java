@@ -28,10 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(
-    name = "CRUD REST APIs for Room-Professor Allocation",
-    description = "CRUD REST APIs for managing room-professor allocation"
-)
+@Tag(name = "CRUD REST APIs for Room-Professor Allocation", description = "CRUD REST APIs for managing room-professor allocation")
 @RestController
 @RequestMapping(path = "/api/v1/rooms/allocation", produces = {MediaType.APPLICATION_JSON_VALUE})
 @AllArgsConstructor
@@ -40,21 +37,9 @@ public class RoomProfessorController {
 
   private IRoomProfessorService iRoomProfessorService;
 
-  @Operation(
-      summary = "Create Room-Professor Allocation REST API",
-      description = "Create a new room-professor allocation"
-  )
-  @ApiResponse(
-      responseCode = "201",
-      description = "HTTP Status CREATED"
-  )
-  @ApiResponse(
-      responseCode = "500",
-      description = "HTTP Status INTERNAL SERVER ERROR",
-      content = @Content(
-          schema = @Schema(implementation = ErrorResponseDto.class)
-      )
-  )
+  @Operation(summary = "Create Room-Professor Allocation REST API", description = "Create a new room-professor allocation")
+  @ApiResponse(responseCode = "201", description = "HTTP Status CREATED")
+  @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @PostMapping("/create")
   public ResponseEntity<ResponseDto> createRoomProfessor(
       @Valid @RequestBody CreateRoomProfessorDto createRoomProfessorDto) {
@@ -63,21 +48,9 @@ public class RoomProfessorController {
         .body(new ResponseDto(RoomsConstants.STATUS_201, RoomsConstants.MESSAGE_201));
   }
 
-  @Operation(
-      summary = "Fetch Professor by Room ID REST API",
-      description = "Fetch Professor details based on Room ID"
-  )
-  @ApiResponse(
-      responseCode = "200",
-      description = "HTTP Status OK"
-  )
-  @ApiResponse(
-      responseCode = "500",
-      description = "HTTP Status INTERNAL SERVER ERROR",
-      content = @Content(
-          schema = @Schema(implementation = ErrorResponseDto.class)
-      )
-  )
+  @Operation(summary = "Fetch Professor by Room ID REST API", description = "Fetch Professor details based on Room ID")
+  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
+  @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetchByRoomId")
   public ResponseEntity<List<FetchRoomProfessorDto>> fetchProfessorByRoomId(
       @Valid @RequestParam Long id) {
@@ -86,21 +59,9 @@ public class RoomProfessorController {
     return ResponseEntity.status(HttpStatus.OK).body(fetchRoomProfessorDtoList);
   }
 
-  @Operation(
-      summary = "Fetch Room by Professor ID REST API",
-      description = "Fetch Room details based on Professor ID"
-  )
-  @ApiResponse(
-      responseCode = "200",
-      description = "HTTP Status OK"
-  )
-  @ApiResponse(
-      responseCode = "500",
-      description = "HTTP Status INTERNAL SERVER ERROR",
-      content = @Content(
-          schema = @Schema(implementation = ErrorResponseDto.class)
-      )
-  )
+  @Operation(summary = "Fetch Room by Professor ID REST API", description = "Fetch Room details based on Professor ID")
+  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
+  @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetchByProfessorId")
   public ResponseEntity<List<FetchRoomProfessorDto>> fetchRoomByProfessorId(
       @Valid @RequestParam Long professorId) {
@@ -109,21 +70,9 @@ public class RoomProfessorController {
     return ResponseEntity.status(HttpStatus.OK).body(fetchRoomProfessorDtoList);
   }
 
-  @Operation(
-      summary = "Fetch All Room-Professor Allocation REST API",
-      description = "REST API to fetch all room-professor allocations"
-  )
-  @ApiResponse(
-      responseCode = "200",
-      description = "HTTP Status OK"
-  )
-  @ApiResponse(
-      responseCode = "500",
-      description = "HTTP Status INTERNAL SERVER ERROR",
-      content = @Content(
-          schema = @Schema(implementation = ErrorResponseDto.class)
-      )
-  )
+  @Operation(summary = "Fetch All Room-Professor Allocation REST API", description = "REST API to fetch all room-professor allocations")
+  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
+  @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetchAll")
   public ResponseEntity<List<FetchRoomProfessorDto>> fetchAllRoomProfessor() {
     List<FetchRoomProfessorDto> fetchRoomProfessorDtoList = iRoomProfessorService.fetchAllRoomProfessor();
@@ -131,7 +80,8 @@ public class RoomProfessorController {
   }
 
   @PutMapping("/update")
-  public ResponseEntity<ResponseDto> updateDetails(@RequestBody UpdateRoomProfessorDto updateRoomProfessorDto) {
+  public ResponseEntity<ResponseDto> updateDetails(
+      @RequestBody UpdateRoomProfessorDto updateRoomProfessorDto) {
     boolean isUpdated = iRoomProfessorService.updateRoomProfessor(updateRoomProfessorDto);
     if (isUpdated) {
       return ResponseEntity.status(HttpStatus.OK)
@@ -142,24 +92,11 @@ public class RoomProfessorController {
     }
   }
 
-  @Operation(
-      summary = "Delete Room-Professor Allocation REST API",
-      description = "Delete a room-professor allocation"
-  )
-  @ApiResponse(
-      responseCode = "200",
-      description = "HTTP Status OK"
-  )
-  @ApiResponse(
-      responseCode = "500",
-      description = "HTTP Status INTERNAL SERVER ERROR",
-      content = @Content(
-          schema = @Schema(implementation = ErrorResponseDto.class)
-      )
-  )
+  @Operation(summary = "Delete Room-Professor Allocation REST API", description = "Delete a room-professor allocation")
+  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
+  @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @DeleteMapping("/delete")
-  public ResponseEntity<ResponseDto> deleteRoomProfessorAllocation(
-      @Valid @RequestParam Long id) {
+  public ResponseEntity<ResponseDto> deleteRoomProfessorAllocation(@Valid @RequestParam Long id) {
     boolean isDeleted = iRoomProfessorService.deleteRoomProfessor(id);
     if (isDeleted) {
       return ResponseEntity.status(HttpStatus.OK)

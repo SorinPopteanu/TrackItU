@@ -17,7 +17,7 @@ public class CreateAssetDto {
 
   private double price;
 
-  private String roomCode;
+  private Long roomId;
 
   private Status status;
 }
