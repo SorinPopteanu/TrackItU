@@ -44,7 +44,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 20
-      start_period: 120s
+      start_period: 10s
     extends:
       file: common-config.yml
       service: microservice-base-config
@@ -59,7 +59,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 20
-      start_period: 100s
+      start_period: 10s
     extends:
       file: common-config.yml
       service: microservice-configserver-config
