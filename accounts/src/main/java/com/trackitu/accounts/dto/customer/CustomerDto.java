@@ -14,6 +14,8 @@ import lombok.Data;
 )
 public class CustomerDto {
 
+  private Long id;
+
   @Schema(
       description = "First Name of the customer", example = "Sorin"
   )

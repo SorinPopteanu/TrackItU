@@ -1,5 +1,6 @@
 package com.trackitu.assets.service;
 
+import com.trackitu.assets.dto.asset.FetchAssetRoomProfessorDto;
 import com.trackitu.assets.dto.asset_type.CreateAssetTypeDto;
 import com.trackitu.assets.dto.asset_type.FetchAssetTypeDto;
 import com.trackitu.assets.dto.asset_type.UpdateAssetTypeDto;
@@ -36,4 +37,11 @@ public interface IAssetTypeService {
    * @return boolean indicating if the deletion of the Asset type is successful or not
    */
   boolean deleteAssetType(Long id);
+
+  /**
+   * @param id - Input asset id
+   * @return the room and the corresponding professors in which the asset exists
+   */
+  FetchAssetRoomProfessorDto fetchAssetRoomProfessor(Long id);
 }
+

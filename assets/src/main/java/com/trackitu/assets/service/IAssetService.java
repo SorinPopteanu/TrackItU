@@ -2,6 +2,7 @@ package com.trackitu.assets.service;
 
 import com.trackitu.assets.dto.asset.CreateAssetDto;
 import com.trackitu.assets.dto.asset.FetchAssetDto;
+import com.trackitu.assets.dto.asset.FetchAssetRoomProfessorDto;
 import com.trackitu.assets.dto.asset.UpdateAssetDto;
 import jakarta.validation.Valid;
 import java.util.List;

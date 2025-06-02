@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `assets` (
     `funding_source_id` int,
     `acquisition_date` datetime NOT NULL,
     `price` decimal(10, 2) NOT NULL,
-    `room_code` varchar(5),
+    `room_id` int,
     `status` varchar(20) NOT NULL,
     `created_at` datetime NOT NULL,
     `created_by` varchar(20) NOT NULL,

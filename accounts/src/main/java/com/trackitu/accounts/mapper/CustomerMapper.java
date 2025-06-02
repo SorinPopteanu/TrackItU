@@ -1,11 +1,13 @@
 package com.trackitu.accounts.mapper;
 
 import com.trackitu.accounts.dto.customer.CustomerDto;
+import com.trackitu.accounts.dto.customer.FetchCustomerDetailsDto;
 import com.trackitu.accounts.entity.Customer;
 
 public class CustomerMapper {
 
   public static CustomerDto mapToCustomerDto(Customer customer, CustomerDto customerDto) {
+    customerDto.setId(customer.getId());
     customerDto.setFirstName(customer.getFirstName());
     customerDto.setLastName(customer.getLastName());
     customerDto.setEmail(customer.getEmail());
@@ -20,4 +22,10 @@ public class CustomerMapper {
     customer.setMobileNumber(customerDto.getMobileNumber());
     return customer;
   }
+
+  public static FetchCustomerDetailsDto mapToCustomerDetailsDto(Customer customer, FetchCustomerDetailsDto customerDetailsDto) {
+    customerDetailsDto.setCustomerDto(mapToCustomerDto(customer, new CustomerDto()));
+    return customerDetailsDto;
+  }
+
 }

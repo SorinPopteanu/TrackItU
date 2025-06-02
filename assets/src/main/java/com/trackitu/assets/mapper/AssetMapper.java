@@ -2,6 +2,7 @@ package com.trackitu.assets.mapper;
 
 import com.trackitu.assets.dto.asset.CreateAssetDto;
 import com.trackitu.assets.dto.asset.FetchAssetDto;
+import com.trackitu.assets.dto.asset.FetchAssetRoomProfessorDto;
 import com.trackitu.assets.dto.asset.UpdateAssetDto;
 import com.trackitu.assets.dto.asset_type.FetchAssetTypeDto;
 import com.trackitu.assets.dto.funding_source.FetchFundingSourceDto;
@@ -17,7 +18,7 @@ public class AssetMapper {
     asset.setFundingSource(fundingSource);
     asset.setAcquisitionDate(assetDto.getAcquisitionDate());
     asset.setPrice(assetDto.getPrice());
-    asset.setRoomCode(assetDto.getRoomCode());
+    asset.setRoomId(assetDto.getRoomId());
     asset.setStatus(assetDto.getStatus());
     return asset;
   }
@@ -28,7 +29,7 @@ public class AssetMapper {
     asset.setFundingSource(fundingSource);
     asset.setAcquisitionDate(assetDto.getAcquisitionDate());
     asset.setPrice(assetDto.getPrice());
-    asset.setRoomCode(assetDto.getRoomCode());
+    asset.setRoomId(assetDto.getRoomId());
     asset.setStatus(assetDto.getStatus());
   }
 
@@ -39,7 +40,7 @@ public class AssetMapper {
     fetchAssetDto.setFundingSourceDto(FundingSourceMapper.mapToFetchFundingSourceDto(asset.getFundingSource(), new FetchFundingSourceDto()));
     fetchAssetDto.setAcquisitionDate(asset.getAcquisitionDate());
     fetchAssetDto.setPrice(asset.getPrice());
-    fetchAssetDto.setRoomCode(asset.getRoomCode());
+    fetchAssetDto.setRoomId(asset.getRoomId());
     fetchAssetDto.setStatus(asset.getStatus());
     return fetchAssetDto;
   }

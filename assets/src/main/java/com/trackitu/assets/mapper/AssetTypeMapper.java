@@ -1,5 +1,6 @@
 package com.trackitu.assets.mapper;
 
+import com.trackitu.assets.dto.asset.FetchAssetRoomProfessorDto;
 import com.trackitu.assets.dto.asset_type.CreateAssetTypeDto;
 import com.trackitu.assets.dto.asset_type.FetchAssetTypeDto;
 import com.trackitu.assets.dto.asset_type.UpdateAssetTypeDto;
@@ -26,6 +27,12 @@ public class AssetTypeMapper {
     fetchAssetTypeDto.setUnitOfMeasure(assetType.getUnitOfMeasure());
     fetchAssetTypeDto.setManagementType(assetType.getManagementType());
     return fetchAssetTypeDto;
+  }
+
+  public static FetchAssetRoomProfessorDto mapToFetchAssetRoomProfessorDto(AssetType assetType, FetchAssetRoomProfessorDto fetchAssetRoomProfessorDto) {
+    fetchAssetRoomProfessorDto.setAssetTypeId(assetType.getId());
+    fetchAssetRoomProfessorDto.setAssetTypeName(assetType.getName());
+    return fetchAssetRoomProfessorDto;
   }
 
 }

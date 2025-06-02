@@ -46,7 +46,7 @@ public class Asset extends BaseEntity {
 
   private double price;
 
-  private String roomCode;
+  private Long roomId;
 
   @Enumerated(EnumType.STRING)
   private Status status;

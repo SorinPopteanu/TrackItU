@@ -6,6 +6,7 @@ import com.trackitu.assets.dto.ErrorResponseDto;
 import com.trackitu.assets.dto.ResponseDto;
 import com.trackitu.assets.dto.asset.CreateAssetDto;
 import com.trackitu.assets.dto.asset.FetchAssetDto;
+import com.trackitu.assets.dto.asset.FetchAssetRoomProfessorDto;
 import com.trackitu.assets.dto.asset.UpdateAssetDto;
 import com.trackitu.assets.service.IAssetService;
 import io.swagger.v3.oas.annotations.Operation;
