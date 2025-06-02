@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
     description = "CRUD REST APIs for managing room bookings"
 )
 @RestController
-@RequestMapping(path = "/api/v1/rooms/bookings")
+@RequestMapping(path = "/api/v1/bookings")
 @AllArgsConstructor
 @Validated
 public class BookingsController {

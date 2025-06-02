@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "CRUD REST APIs for Rooms", description = "CRUD REST APIs for managing rooms")
 @RestController
-@RequestMapping(path = "/api/v1/rooms/room", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = "/api/v1/room", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
 public class RoomController {
 

@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient("rooms")
 public interface RoomsFeignClient {
 
-  @GetMapping("/api/v1/rooms/allocation/fetchByRoomId")
+  @GetMapping("/api/v1/allocation/fetchByRoomId")
   ResponseEntity<List<RoomProfessorDto>> fetchProfessorByRoomId(@RequestParam Long id);
 }

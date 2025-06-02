@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/api/v1/assets/asset")
+@RequestMapping(path = "/api/v1/asset")
 
 @Validated
 public class AssetController {

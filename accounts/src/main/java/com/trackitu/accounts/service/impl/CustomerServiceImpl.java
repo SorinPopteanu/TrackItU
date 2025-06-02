@@ -31,7 +31,7 @@ public class CustomerServiceImpl implements ICustomerService {
    * @return Customer Details based on an email
    */
   @Override
-  public FetchCustomerDetailsDto fetchCustomerDetails(String email) {
+  public FetchCustomerDetailsDto fetchCustomerDetails(String email, String correlationId) {
     Customer customer = customerRepository.findByEmail(email)
         .orElseThrow(() -> new ResourceNotFoundException("Customer", "email", email));
     Accounts accounts = accountsRepository.findByCustomerId(customer.getId()).orElseThrow(
@@ -42,7 +42,7 @@ public class CustomerServiceImpl implements ICustomerService {
     fetchCustomerDetailsDto.setAccountsDto(
         AccountsMapper.mapToAccountsDto(accounts, new AccountsDto()));
 
-    ResponseEntity<List<FetchRoomProfessorDto>> roomProfessorDtoResponseEntity = roomsFeignClient.fetchRoomByProfessorId(
+    ResponseEntity<List<FetchRoomProfessorDto>> roomProfessorDtoResponseEntity = roomsFeignClient.fetchRoomByProfessorId(correlationId,
         customer.getId());
     fetchCustomerDetailsDto.setRoomProfessorDto(roomProfessorDtoResponseEntity.getBody());
 
@@ -50,7 +50,7 @@ public class CustomerServiceImpl implements ICustomerService {
   }
 
   /**
-   * @param id - Input customer id
+   * @param id            - Input customer id
    * @return Customer basic details based on their id
    */
   @Override
