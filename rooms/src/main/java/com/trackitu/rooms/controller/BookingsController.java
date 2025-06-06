@@ -27,10 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(
-    name = "CRUD REST APIs for Bookings",
-    description = "CRUD REST APIs for managing room bookings"
-)
+@Tag(name = "CRUD REST APIs pentru relatia profesor-sala", description = "Rest APIs care permit crearea, actualizarea, stergerea si preluarea detaliilor alocarii de sali pentru profesori")
 @RestController
 @RequestMapping(path = "/api/v1/bookings")
 @AllArgsConstructor
@@ -39,64 +36,29 @@ public class BookingsController {
 
   private IBookingService iBookingsService;
 
-  @Operation(
-      summary = "Create Booking REST API",
-      description = "Create a new room booking"
-  )
-  @ApiResponse(
-      responseCode = "201",
-      description = "HTTP Status CREATED"
-  )
-  @ApiResponse(
-      responseCode = "500",
-      description = "HTTP Status INTERNAL SERVER ERROR",
-      content = @Content(
-          schema = @Schema(implementation = ErrorResponseDto.class)
-      )
-  )
+  @Operation(summary = "REST API pentru crearea unei rezervari", description = "Creeaza o rezervare noua pentru o sala")
+  @ApiResponse(responseCode = "201", description = "HTTP Status CREATED")
+  @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @PostMapping("/create")
-  public ResponseEntity<ResponseDto> createBooking(@Valid @RequestBody CreateBookingDto createBookingDto) {
+  public ResponseEntity<ResponseDto> createBooking(
+      @Valid @RequestBody CreateBookingDto createBookingDto) {
     iBookingsService.createBooking(createBookingDto);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(new ResponseDto(RoomsConstants.STATUS_201, RoomsConstants.MESSAGE_201));
   }
 
-  @Operation(
-      summary = "Fetch Booking Details REST API",
-      description = "REST API to fetch all booking details"
-  )
-  @ApiResponse(
-      responseCode = "200",
-      description = "HTTP Status OK"
-  )
-  @ApiResponse(
-      responseCode = "500",
-      description = "HTTP Status INTERNAL SERVER ERROR",
-      content = @Content(
-          schema = @Schema(implementation = ErrorResponseDto.class)
-      )
-  )
+  @Operation(summary = "REST API pentru preluarea tuturor rezervarilor", description = "REST API pentru preluarea tuturor rezervarilor si a detaliilor acestora")
+  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
+  @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetchAll")
   public ResponseEntity<List<FetchBookingDto>> fetchAllBookings() {
     List<FetchBookingDto> fetchBookingDtoList = iBookingsService.fetchAllBookings();
     return ResponseEntity.status(HttpStatus.OK).body(fetchBookingDtoList);
   }
 
-  @Operation(
-      summary = "Update Booking Status REST API",
-      description = "Update the status of a booking"
-  )
-  @ApiResponse(
-      responseCode = "200",
-      description = "HTTP Status OK"
-  )
-  @ApiResponse(
-      responseCode = "500",
-      description = "HTTP Status INTERNAL SERVER ERROR",
-      content = @Content(
-          schema = @Schema(implementation = ErrorResponseDto.class)
-      )
-  )
+  @Operation(summary = "REST API pentru schimbarea statusului rezervarii", description = "REST API pentru schimbarea statusului unei rezervari pe baza id-ului acesteia")
+  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
+  @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @PutMapping("/updateStatus")
   public ResponseEntity<ResponseDto> updateStatus(@RequestBody UpdateBookingDto updateBookingDto) {
     boolean isUpdated = iBookingsService.updateStatus(updateBookingDto);
@@ -109,21 +71,9 @@ public class BookingsController {
     }
   }
 
-  @Operation(
-      summary = "Delete Booking REST API",
-      description = "Delete a room booking"
-  )
-  @ApiResponse(
-      responseCode = "200",
-      description = "HTTP Status OK"
-  )
-  @ApiResponse(
-      responseCode = "500",
-      description = "HTTP Status INTERNAL SERVER ERROR",
-      content = @Content(
-          schema = @Schema(implementation = ErrorResponseDto.class)
-      )
-  )
+  @Operation(summary = "REST API pentru stergerea unei rezervari", description = "REST API pentru stergerea unei rezervari pe baza id-ului acesteia")
+  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
+  @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @DeleteMapping("/delete")
   public ResponseEntity<ResponseDto> deleteBooking(@RequestParam Long id) {
     boolean isDeleted = iBookingsService.deleteBooking(id);

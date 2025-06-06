@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -30,9 +31,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "CRUD REST APIs pentru elementele de inventar", description = "Rest APIs care permit crearea, actualizarea, stergerea si preluarea detaliilor elementelor de inventar")
 @RestController
 @RequestMapping(path = "/api/v1/asset")
-
 @Validated
 public class AssetController {
 
@@ -49,6 +50,9 @@ public class AssetController {
   @Value("${build.version}")
   private String buildVersion;
 
+  @Operation(summary = "REST API pentru crearea unui element de inventar", description = "Adauga un nou element de inventar")
+  @ApiResponse(responseCode = "201", description = "HTTP Status CREATED")
+  @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @PostMapping("/create")
   public ResponseEntity<ResponseDto> createAsset(
       @RequestBody CreateAssetDto createAssetDto) {
@@ -57,12 +61,18 @@ public class AssetController {
         .body(new ResponseDto(AssetsConstants.STATUS_201, AssetsConstants.MESSAGE_201));
   }
 
+  @Operation(summary = "REST API pentru preluarea tuturor bunurilor", description = "REST API pentru preluarea tuturor elementelor de inventar si a detaliilor acestora")
+  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
+  @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetchAll")
   public ResponseEntity<List<FetchAssetDto>> fetchAllAssets() {
     List<FetchAssetDto> fetchAssetDtoList = iAssetService.fetchAllAssets();
     return ResponseEntity.status(HttpStatus.OK).body(fetchAssetDtoList);
   }
 
+  @Operation(summary = "REST API pentru actualizarea detaliilor unui bun", description = "REST API pentru actualizarea detaliilor unui element de inventar pe baza id-ului")
+  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
+  @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @PutMapping("/update")
   public ResponseEntity<ResponseDto> updateAssetDetails(
       @Valid @RequestBody UpdateAssetDto updateAssetDto) {
@@ -76,6 +86,9 @@ public class AssetController {
     }
   }
 
+  @Operation(summary = "REST API pentru stergerea unui bun", description = "REST API pentru stergerea unui element de inventar pe baza numarului de identificare")
+  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
+  @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @DeleteMapping("/delete")
   public ResponseEntity<ResponseDto> deleteAsset(@RequestParam Long id) {
     boolean isDeleted = iAssetService.deleteAsset(id);
@@ -88,7 +101,7 @@ public class AssetController {
     }
   }
 
-  @Operation(summary = "Get Contact Info", description = "Contact Info details that can be reached out in case of any issues")
+  @Operation(summary = "Informatii de contact", description = "Detalii de contact la care se poate apela in caz de probleme")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/contact-info")
@@ -96,7 +109,7 @@ public class AssetController {
     return ResponseEntity.status(HttpStatus.OK).body(assetsContactInfoDto);
   }
 
-  @Operation(summary = "Get Build information", description = "Get Build information that is deployed into assets microservice")
+  @Operation(summary = "Informatii despre versiune", description = "Informatii despre versiunea microserviciului assets")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/build-info")
@@ -105,7 +118,7 @@ public class AssetController {
         .body(buildVersion);
   }
 
-  @Operation(summary = "Get Java version", description = "Get Java versions details that is installed into assets microservice")
+  @Operation(summary = "Versiunea Java", description = "Detalii despre versiunea Java instalata in microserviciul assets")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/java-version")

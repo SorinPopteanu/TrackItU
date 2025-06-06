@@ -1,6 +1,7 @@
 package com.trackitu.accounts.dto.rooms;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -13,6 +14,10 @@ public class FetchRoomProfessorDto {
 
   private Long id;
 
+  @Schema(
+      description = "Room information"
+  )
+  @Valid
   private FetchRoomDto roomDto;
 
   @Schema(

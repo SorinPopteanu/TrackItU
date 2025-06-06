@@ -79,14 +79,14 @@ public class RoomServiceImpl implements IRoomService {
   }
 
   /**
-   * @param roomCode - Input room code
+   * @param id - Input room id
    * @return boolean indicating if the deletion of the Room is successful or not
    */
   @Override
-  public boolean deleteRoom(String roomCode) {
-    Room room = roomRepository.findByRoomCode(roomCode)
-        .orElseThrow(() -> new ResourceNotFoundException("Room", "RoomCode", roomCode));
-    roomRepository.deleteById(room.getId());
+  public boolean deleteRoom(Long id) {
+    roomRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Room", "RoomId", id.toString()));
+    roomRepository.deleteById(id);
     return true;
   }
 }

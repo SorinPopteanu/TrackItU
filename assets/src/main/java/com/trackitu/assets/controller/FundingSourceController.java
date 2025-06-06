@@ -6,6 +6,8 @@ import com.trackitu.assets.dto.ResponseDto;
 import com.trackitu.assets.dto.funding_source.FetchFundingSourceDto;
 import com.trackitu.assets.dto.funding_source.UpdateFundingSourceDto;
 import com.trackitu.assets.service.IFundingSourceService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "CRUD REST APIs pentru sursele de finantare", description = "Rest APIs care permit crearea, actualizarea, stergerea si preluarea detaliilor surselor de finantare")
 @RestController
 @RequestMapping(path = "/api/v1/funding-source")
 @AllArgsConstructor
@@ -29,6 +32,7 @@ public class FundingSourceController {
 
   private IFundingSourceService iFundingSourceService;
 
+  @Operation(summary = "REST API pentru crearea unei surse de finantare", description = "Adauga o noua sursa de finantare")
   @PostMapping("/create")
   public ResponseEntity<ResponseDto> createFundingSource(
       @RequestBody CreateFundingSourceDto createFundingSourceDto) {
@@ -37,12 +41,14 @@ public class FundingSourceController {
         .body(new ResponseDto(AssetsConstants.STATUS_201, AssetsConstants.MESSAGE_201));
   }
 
+  @Operation(summary = "REST API pentru preluarea tuturor surselor de finantare", description = "REST API pentru preluarea tuturor surselor de finantare si a detaliilor acestora")
   @GetMapping("/fetchAll")
   public ResponseEntity<List<FetchFundingSourceDto>> fetchAllFundingSources() {
     List<FetchFundingSourceDto> fundingSourceDtoList = iFundingSourceService.fetchAllFundingSources();
     return ResponseEntity.status(HttpStatus.OK).body(fundingSourceDtoList);
   }
 
+  @Operation(summary = "REST API pentru actualizarea detaliilor unei surse de finantare", description = "REST API pentru actualizarea detaliilor unei surse de finantare pe baza id-ului")
   @PutMapping("/update")
   public ResponseEntity<ResponseDto> updateFundingSourceDetails(
       @Valid @RequestBody UpdateFundingSourceDto updateFundingSourceDto) {
@@ -56,6 +62,7 @@ public class FundingSourceController {
     }
   }
 
+  @Operation(summary = "REST API pentru stergerea unei surse de finantare", description = "REST API pentru stergerea unei surse de finantare pe baza id-ului")
   @DeleteMapping("/delete")
   public ResponseEntity<ResponseDto> deleteFundingSource(@RequestParam Long id) {
     boolean isDeleted = iFundingSourceService.deleteFundingSource(id);

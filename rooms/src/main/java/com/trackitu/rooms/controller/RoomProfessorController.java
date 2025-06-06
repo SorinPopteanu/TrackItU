@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "CRUD REST APIs for Room-Professor Allocation", description = "CRUD REST APIs for managing room-professor allocation")
+@Tag(name = "CRUD REST APIs pentru relatia profesor-sala", description = "Rest APIs care permit crearea, actualizarea, stergerea si preluarea detaliilor alocarii de sali pentru profesori")
 @RestController
 @RequestMapping(path = "/api/v1/allocation", produces = {MediaType.APPLICATION_JSON_VALUE})
 @AllArgsConstructor
@@ -41,7 +41,7 @@ public class RoomProfessorController {
   private IRoomProfessorService iRoomProfessorService;
   private static final Logger logger = LoggerFactory.getLogger(RoomProfessorController.class);
 
-  @Operation(summary = "Create Room-Professor Allocation REST API", description = "Create a new room-professor allocation")
+  @Operation(summary = "REST API pentru crearea unei relatii sala-profesor", description = "Aloca o sala unui profesor")
   @ApiResponse(responseCode = "201", description = "HTTP Status CREATED")
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @PostMapping("/create")
@@ -52,7 +52,7 @@ public class RoomProfessorController {
         .body(new ResponseDto(RoomsConstants.STATUS_201, RoomsConstants.MESSAGE_201));
   }
 
-  @Operation(summary = "Fetch Professor by Room ID REST API", description = "Fetch Professor details based on Room ID")
+  @Operation(summary = "REST API pentru preluarea detaliilor relatiei sala-profesor", description = "REST API pentru preluarea detaliilor tuturor relatiilor sala-profesor pe baza id-ului salii")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetchByRoomId")
@@ -63,7 +63,7 @@ public class RoomProfessorController {
     return ResponseEntity.status(HttpStatus.OK).body(fetchRoomProfessorDtoList);
   }
 
-  @Operation(summary = "Fetch Room by Professor ID REST API", description = "Fetch Room details based on Professor ID")
+  @Operation(summary = "REST API pentru preluarea detaliilor relatiei sala-profesor", description = "REST API pentru preluarea detaliilor tuturor relatiilor sala-profesor pe baza id-ului profesorului")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetchByProfessorId")
@@ -75,7 +75,7 @@ public class RoomProfessorController {
     return ResponseEntity.status(HttpStatus.OK).body(fetchRoomProfessorDtoList);
   }
 
-  @Operation(summary = "Fetch All Room-Professor Allocation REST API", description = "REST API to fetch all room-professor allocations")
+  @Operation(summary = "REST API pentru preluarea detaliilor relatiei sala-profesor", description = "REST API pentru preluarea detaliilor tuturor relatiilor sala-profesor")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetchAll")
@@ -84,6 +84,7 @@ public class RoomProfessorController {
     return ResponseEntity.status(HttpStatus.OK).body(fetchRoomProfessorDtoList);
   }
 
+  @Operation(summary = "REST API pentru actualizarea detaliilor unei relatii sala-profesor", description = "REST API pentru actualizarea detaliilor unei relatii sala-profesor pe baza id-ului")
   @PutMapping("/update")
   public ResponseEntity<ResponseDto> updateDetails(
       @RequestBody UpdateRoomProfessorDto updateRoomProfessorDto) {
@@ -97,7 +98,7 @@ public class RoomProfessorController {
     }
   }
 
-  @Operation(summary = "Delete Room-Professor Allocation REST API", description = "Delete a room-professor allocation")
+  @Operation(summary = "REST API pentru stergerea unei relatii sala-profesor", description = "REST API pentru stergerea unei relatii sala-profesor pe baza id-ului")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @DeleteMapping("/delete")
@@ -112,6 +113,7 @@ public class RoomProfessorController {
     }
   }
 
+  @Operation(summary = "REST API pentru stergerea unei relatii sala-profesor", description = "REST API pentru stergerea unei relatii sala-profesor pe baza id-ului profesorului")
   @DeleteMapping("/deleteByProfessorId")
   public ResponseEntity<ResponseDto> deleteRoomProfessorByProfessorId(
       @Valid @RequestParam Long professorId) {

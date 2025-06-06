@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "REST API for Customers in TrackItU", description = "REST API to Fetch customer details")
+@Tag(name = "CRUD REST APIs pentru utilizatori", description = "REST APIs care permit preluarea detaliilor clientilor")
 @RestController
 @RequestMapping(path = "/api/v1/customer", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
@@ -35,7 +35,7 @@ public class CustomerController {
     this.iCustomerService = iCustomerService;
   }
 
-  @Operation(summary = "Fetch Customer Details REST API", description = "REST API to fetch Customer details based on email")
+  @Operation(summary = "REST API pentru preluarea detaliilor profesorilor", description = "REST API pentru preluarea detaliilor profesorilor pe baza adresei de email (detaliile utilizatorului + salile alocate acestora)")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetchCustomerDetails")
@@ -47,6 +47,9 @@ public class CustomerController {
     return ResponseEntity.status(HttpStatus.OK).body(customerDetailsDto);
   }
 
+  @Operation(summary = "REST API pentru preluarea detaliilor utilizatorilor", description = "REST API pentru preluarea detaliilor utilizatorului pe baza id-ului")
+  @ApiResponse(responseCode = "200", description = "HTTP Status OK")
+  @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetch")
   public ResponseEntity<CustomerDto> fetchCustomer(@RequestParam Long id) {
     CustomerDto customerDto = iCustomerService.fetchCustomer(id);

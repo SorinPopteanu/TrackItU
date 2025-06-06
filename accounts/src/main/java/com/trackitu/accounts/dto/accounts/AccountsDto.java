@@ -18,7 +18,6 @@ public class AccountsDto {
       description = "Account number", example = "1234567890"
   )
   @NotNull(message = "Account number can not be a null or empty")
-//  @Pattern(regexp="^[0-9]{10}$", message = "Account number must be 10 digits")
   private Long accountNumber;
 
   @Schema(
