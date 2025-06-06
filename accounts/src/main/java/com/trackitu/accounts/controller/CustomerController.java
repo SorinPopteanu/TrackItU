@@ -40,10 +40,10 @@ public class CustomerController {
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetchCustomerDetails")
   public ResponseEntity<FetchCustomerDetailsDto> fetchCustomerDetails(
-      @Email(message = "Email address is not valid") @RequestParam String email,
-      @RequestHeader("trackItU-correlation-id") String correlationId) {
-    logger.debug("trackItU-correlation-id found: {}", correlationId);
-    FetchCustomerDetailsDto customerDetailsDto = iCustomerService.fetchCustomerDetails(email, correlationId);
+      @Email(message = "Email address is not valid") @RequestParam String email) {
+    logger.debug("fetchCustomerDetails method start");
+    FetchCustomerDetailsDto customerDetailsDto = iCustomerService.fetchCustomerDetails(email);
+    logger.debug("fetchCustomerDetails method end");
     return ResponseEntity.status(HttpStatus.OK).body(customerDetailsDto);
   }
 

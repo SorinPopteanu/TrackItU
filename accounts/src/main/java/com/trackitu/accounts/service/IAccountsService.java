@@ -39,4 +39,10 @@ public interface IAccountsService {
    * @return boolean indicating if the status of the Account is changed or not
    */
   boolean changeStatusAccount(String email);
+
+  /**
+   * @param accountNumber - Input account number
+   * @return boolean indicating if the communication status is updated or not
+   */
+  boolean updateCommunicationStatus(Long accountNumber);
 }

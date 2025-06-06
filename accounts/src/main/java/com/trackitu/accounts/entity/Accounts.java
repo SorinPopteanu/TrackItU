@@ -28,4 +28,6 @@ public class Accounts extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private AccountStatus accountStatus;
 
+  private Boolean communicationSw;
+
 }

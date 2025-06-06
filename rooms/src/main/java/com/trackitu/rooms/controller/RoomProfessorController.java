@@ -68,9 +68,8 @@ public class RoomProfessorController {
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetchByProfessorId")
   public ResponseEntity<List<FetchRoomProfessorDto>> fetchRoomByProfessorId(
-      @RequestHeader("trackItU-correlation-id") String correlationId,
       @Valid @RequestParam Long professorId) {
-    logger.debug("trackItU-correlation-id found: {}", correlationId);
+    logger.debug("fetchRoomByProfessorId method start");
     List<FetchRoomProfessorDto> fetchRoomProfessorDtoList = iRoomProfessorService.fetchRoomByProfessorId(
         professorId);
     return ResponseEntity.status(HttpStatus.OK).body(fetchRoomProfessorDtoList);

@@ -41,7 +41,7 @@ services:
       SPRING_APPLICATION_NAME: "configserver"
     healthcheck:
       test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
-      interval: 10s
+      interval: 20s
       timeout: 5s
       retries: 20
       start_period: 10s

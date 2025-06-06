@@ -1,6 +1,7 @@
 package com.trackitu.accounts.service.impl;
 
 
+import com.trackitu.accounts.dto.AccountsNotificationDto;
 import com.trackitu.accounts.dto.accounts.AccountsDto;
 import com.trackitu.accounts.dto.accounts.CreateAccountDto;
 import com.trackitu.accounts.dto.accounts.FetchCustomerAccountDto;
@@ -17,6 +18,9 @@ import com.trackitu.accounts.repository.AccountsRepository;
 import com.trackitu.accounts.repository.CustomerRepository;
 import com.trackitu.accounts.service.IAccountsService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.concurrent.*;
@@ -27,9 +31,11 @@ public class AccountsServiceImpl implements IAccountsService {
 
   private AccountsRepository accountsRepository;
   private CustomerRepository customerRepository;
+  private final StreamBridge streamBridge;
 
   private final Map<String, ScheduledFuture<?>> scheduledTask = new ConcurrentHashMap<>();
   private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+  private static final Logger logger = LoggerFactory.getLogger(AccountsServiceImpl.class);
 
   /**
    * Create a new account
@@ -46,7 +52,16 @@ public class AccountsServiceImpl implements IAccountsService {
           "Customer already exists with email: " + customer.getEmail());
     }
     Customer savedCustomer = customerRepository.save(customer);
-    accountsRepository.save(createNewAccount(savedCustomer, createAccountDto.getAccountType()));
+    Accounts savedAccount = accountsRepository.save(createNewAccount(savedCustomer, createAccountDto.getAccountType()));
+    sendCommunication(savedAccount, savedCustomer);
+  }
+
+  private void sendCommunication(Accounts account, Customer customer) {
+    var accountsNotificationDto = new AccountsNotificationDto(account.getAccountNumber(), customer.getFirstName(),
+        customer.getLastName(), customer.getEmail(), "123456");
+    logger.info("Sending communication request for customer: {}", customer.getEmail());
+    var result = streamBridge.send("sendCommunication-out-0", accountsNotificationDto);
+    logger.info("Is the communication request successful? {}", result);
   }
 
   /**
@@ -77,8 +92,10 @@ public class AccountsServiceImpl implements IAccountsService {
             customer.getId().toString()));
 
     FetchCustomerAccountDto fetchCustomerAccountDto = new FetchCustomerAccountDto();
-    fetchCustomerAccountDto.setCustomerDto(CustomerMapper.mapToCustomerDto(customer, new CustomerDto()));
-    fetchCustomerAccountDto.setAccountsDto(AccountsMapper.mapToAccountsDto(accounts, new AccountsDto()));
+    fetchCustomerAccountDto.setCustomerDto(
+        CustomerMapper.mapToCustomerDto(customer, new CustomerDto()));
+    fetchCustomerAccountDto.setAccountsDto(
+        AccountsMapper.mapToAccountsDto(accounts, new AccountsDto()));
     return fetchCustomerAccountDto;
   }
 
@@ -166,6 +183,23 @@ public class AccountsServiceImpl implements IAccountsService {
     AccountsMapper.mapToAccounts(accountsDto, accounts);
     accountsRepository.save(accounts);
     return true;
+  }
+
+  /**
+   * @param accountNumber - Input account number
+   * @return boolean indicating if the communication status is updated or not
+   */
+  @Override
+  public boolean updateCommunicationStatus(Long accountNumber) {
+    boolean isUpdated = false;
+    if (accountNumber != null) {
+      Accounts accounts = accountsRepository.findById(accountNumber).orElseThrow(
+          () -> new ResourceNotFoundException("Account", "AccountNumber", accountNumber.toString()));
+      accounts.setCommunicationSw(true);
+      accountsRepository.save(accounts);
+      isUpdated = true;
+    }
+    return isUpdated;
   }
 
   private void scheduleAccountDeletion(String email) {
