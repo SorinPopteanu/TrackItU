@@ -204,7 +204,6 @@ public class AccountsServiceImpl implements IAccountsService {
 
   private void scheduleAccountDeletion(String email) {
     cancelScheduledDeletion(email);
-
     ScheduledFuture<?> future = scheduler.schedule(() -> {
       deleteAccount(email);
       scheduledTask.remove(email);

@@ -1,6 +1,7 @@
 package com.trackitu.assets.controller;
 
 import com.trackitu.assets.constants.AssetsConstants;
+import com.trackitu.assets.dto.asset.FetchAssetRoomProfessorDto;
 import com.trackitu.assets.dto.asset_type.CreateAssetTypeDto;
 import com.trackitu.assets.dto.ResponseDto;
 import com.trackitu.assets.dto.asset_type.FetchAssetTypeDto;
@@ -53,6 +54,12 @@ public class AssetTypeController {
   public ResponseEntity<List<FetchAssetTypeDto>> fetchAllAssetTypes() {
     List<FetchAssetTypeDto> assetTypeDtoList = iAssetTypeService.fetchAllAssetTypes();
     return ResponseEntity.status(HttpStatus.OK).body(assetTypeDtoList);
+  }
+
+  @GetMapping("/fetchRoomProfessor")
+  public ResponseEntity<FetchAssetRoomProfessorDto> fetchAssetRoomProfessor(@RequestParam Long id) {
+    FetchAssetRoomProfessorDto fetchAssetRoomProfessorDto = iAssetTypeService.fetchAssetRoomProfessor(id);
+    return ResponseEntity.status(HttpStatus.OK).body(fetchAssetRoomProfessorDto);
   }
 
   @Operation(summary = "REST API pentru actualizarea detaliilor unei categorii de bunuri", description = "REST API pentru actualizarea detaliilor unei categorii de bunuri pe baza id-ului")

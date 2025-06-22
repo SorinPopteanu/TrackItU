@@ -5,23 +5,16 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
-@Schema(
-    name = "Room",
-    description = "Schema to hold Room information"
-)
+@Schema(name = "Room", description = "Schema to hold Room information")
 @Data
 public class CreateRoomDto {
 
-  @Schema(
-      description = "Room code", example = "EB212"
-  )
+  @Schema(description = "Room code", example = "EB212")
   @NotNull(message = "Room code can not be a null or empty")
   @Pattern(regexp = "[A-Z]{2}\\d{3}", message = "Room code must be in the format 'ZZ999'")
   private String roomCode;
 
-  @Schema(
-      description = "Room name", example = "Informatics Lab"
-  )
+  @Schema(description = "Room name", example = "Informatics Lab")
   private String name;
 
 }

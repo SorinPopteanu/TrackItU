@@ -25,7 +25,6 @@ public class NotificationFunctions {
   public Function<AccountsNotificationDto, AccountsNotificationDto> email() {
     return accDto -> {
       logger.info("Preparing to send email to: {}", accDto.email());
-
       try {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);

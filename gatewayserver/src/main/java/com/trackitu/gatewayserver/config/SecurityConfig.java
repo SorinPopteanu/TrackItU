@@ -21,7 +21,7 @@ public class SecurityConfig {
   @Bean
   public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity serverHttpSecurity) {
     serverHttpSecurity.authorizeExchange(
-            exchanges -> exchanges.pathMatchers(HttpMethod.GET).permitAll()
+            exchanges -> exchanges
                 .pathMatchers("/trackitu/accounts/**").hasRole("ACCOUNTS")
                 .pathMatchers("/trackitu/rooms/**").hasRole("ROOMS")
                 .pathMatchers("/trackitu/assets/**").hasRole("ASSETS"))

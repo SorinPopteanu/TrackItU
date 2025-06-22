@@ -59,7 +59,7 @@ public class AccountsController {
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetch")
   public ResponseEntity<FetchCustomerAccountDto> fetchAccountDetails(
-      @Email(message = "Adresa de email nu este valida") @RequestParam String email) {
+      @Email(message = "Email address is not valid") @RequestParam String email) {
     FetchCustomerAccountDto fetchCustomerAccountDto = iAccountsService.fetchAccountDetails(email);
     return ResponseEntity.status(HttpStatus.OK).body(fetchCustomerAccountDto);
   }
@@ -94,7 +94,7 @@ public class AccountsController {
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @PutMapping("/changeStatus")
   public ResponseEntity<ResponseDto> changeStatusAccount(
-      @Email(message = "Adresa de email nu este valida") @RequestParam String email) {
+      @Email(message = "Email address is not valid") @RequestParam String email) {
     boolean isChanged = iAccountsService.changeStatusAccount(email);
     if (isChanged) {
       return ResponseEntity.status(HttpStatus.OK)
@@ -110,7 +110,7 @@ public class AccountsController {
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @DeleteMapping("/delete")
   public ResponseEntity<ResponseDto> deleteAccount(
-      @Email(message = "Adresa de email nu este valida") @RequestParam String email) {
+      @Email(message = "Email address is not valid") @RequestParam String email) {
     boolean isDeleted = iAccountsService.deleteAccount(email);
     if (isDeleted) {
       return ResponseEntity.status(HttpStatus.OK)

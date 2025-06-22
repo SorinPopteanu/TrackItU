@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "CRUD REST APIs pentru relatia profesor-sala", description = "Rest APIs care permit crearea, actualizarea, stergerea si preluarea detaliilor alocarii de sali pentru profesori")
+@Tag(name = "CRUD REST APIs pentru rezervari", description = "Rest APIs care permit crearea, actualizarea, stergerea si preluarea detaliilor unei rezervari de sala")
 @RestController
 @RequestMapping(path = "/api/v1/bookings")
 @AllArgsConstructor

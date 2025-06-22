@@ -1,7 +1,9 @@
 package com.trackitu.gatewayserver;
 
+import com.trackitu.gatewayserver.filters.AddCustomerHeaderFilter;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
@@ -19,11 +21,15 @@ public class GatewayserverApplication {
     SpringApplication.run(GatewayserverApplication.class, args);
   }
 
+  @Autowired
+  private AddCustomerHeaderFilter addCustomerHeaderFilter;
+
   @Bean
   public RouteLocator trackItURouteConfig(RouteLocatorBuilder routeLocatorBuilder) {
     return routeLocatorBuilder.routes()
         .route(p -> p.path("/trackitu/accounts/**")
             .filters(f -> f.rewritePath("trackitu/accounts/(?<segment>.*)", "/${segment}")
+                .filter(addCustomerHeaderFilter.apply(new Object()))
                 .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
                 .circuitBreaker(config -> config.setName("accountsCircuitBreaker")
                     .setFallbackUri("forward:/contact-support"))
@@ -35,15 +41,17 @@ public class GatewayserverApplication {
             .uri("lb://ACCOUNTS"))
         .route(p -> p.path("/trackitu/rooms/**")
             .filters(f -> f.rewritePath("trackitu/rooms/(?<segment>.*)", "/${segment}")
+                .filter(addCustomerHeaderFilter.apply(new Object()))
                 .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
             .uri("lb://ROOMS"))
         .route(p -> p.path("/trackitu/assets/**")
             .filters(f -> f.rewritePath("trackitu/assets/(?<segment>.*)", "/${segment}")
+                .filter(addCustomerHeaderFilter.apply(new Object()))
                 .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
                 .circuitBreaker(config -> config.setName("assetsCircuitBreaker")
                     .setFallbackUri("forward:/contact-support")))
-            .uri("lb://ASSETS")).build();
-
+            .uri("lb://ASSETS"))
+        .build();
   }
 
   @Bean
