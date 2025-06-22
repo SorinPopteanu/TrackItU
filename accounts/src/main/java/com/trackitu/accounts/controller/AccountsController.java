@@ -23,7 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@Tag(name = "CRUD REST APIs for Accounts", description = "CRUD REST APIs for managing customer accounts")
+@Tag(name = "CRUD REST APIs pentru conturi", description = "Rest APIs care permit crearea, actualizarea, stergerea si preluarea detaliilor conturilor clientilor")
 @RestController
 @RequestMapping(path = "/api/v1", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
@@ -43,7 +43,7 @@ public class AccountsController {
   @Value("${build.version}")
   private String buildVersion;
 
-  @Operation(summary = "Create Account REST API", description = "Create a new customer account")
+  @Operation(summary = "REST API pentru crearea unui cont", description = "Adauga un nou client si ii creeaza un cont")
   @ApiResponse(responseCode = "201", description = "HTTP Status CREATED")
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @PostMapping("/create")
@@ -54,7 +54,7 @@ public class AccountsController {
         .body(new ResponseDto(AccountsConstants.STATUS_201, AccountsConstants.MESSAGE_201));
   }
 
-  @Operation(summary = "Fetch Account Details REST API", description = "REST API to fetch Customer & Account details based on email")
+  @Operation(summary = "REST API pentru preluarea detaliilor contului", description = "REST API pentru preluarea detaliilor clientului si ale contului pe baza adresei de email")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetch")
@@ -64,7 +64,7 @@ public class AccountsController {
     return ResponseEntity.status(HttpStatus.OK).body(fetchCustomerAccountDto);
   }
 
-  @Operation(summary = "Fetch All Accounts REST API", description = "REST API to fetch all Customer & Account details")
+  @Operation(summary = "REST API pentru preluarea tuturor conturilor", description = "REST API pentru preluarea tuturor detaliilor clientilor si ale conturilor acestora")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/fetchAll")
@@ -73,7 +73,7 @@ public class AccountsController {
     return ResponseEntity.status(HttpStatus.OK).body(fetchCustomerAccountDtoList);
   }
 
-  @Operation(summary = "Update Account Details REST API", description = "REST API to update Customer & Account details based on an account number")
+  @Operation(summary = "REST API pentru actualizarea detaliilor contului", description = "REST API pentru actualizarea detaliilor clientului si ale contului pe baza numarului de cont")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @PutMapping("/update")
@@ -89,7 +89,7 @@ public class AccountsController {
     }
   }
 
-  @Operation(summary = "Change Account Status REST API", description = "REST API to change the status of an account based on email")
+  @Operation(summary = "REST API pentru schimbarea statusului contului", description = "REST API pentru schimbarea statusului unui cont pe baza adresei de email")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @PutMapping("/changeStatus")
@@ -105,7 +105,7 @@ public class AccountsController {
     }
   }
 
-  @Operation(summary = "Delete Account & Customer Details REST API", description = "REST API to delete Customer & Account details based on email")
+  @Operation(summary = "REST API pentru stergerea unui cont", description = "REST API pentru stergerea unui client si a contului acestuia pe baza adresei de email")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status INTERNAL SERVER ERROR", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @DeleteMapping("/delete")
@@ -121,7 +121,7 @@ public class AccountsController {
     }
   }
 
-  @Operation(summary = "Get Contact Info", description = "Contact Info details that can be reached out in case of any issues")
+  @Operation(summary = "Informatii de contact", description = "Detalii de contact la care se poate apela in caz de probleme")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/contact-info")
@@ -130,7 +130,7 @@ public class AccountsController {
     return ResponseEntity.status(HttpStatus.OK).body(accountsContactInfoDto);
   }
 
-  @Operation(summary = "Get Build information", description = "Get Build information that is deployed into accounts microservice")
+  @Operation(summary = "Informatii despre versiune", description = "Informatii despre versiunea microserviciului accounts")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/build-info")
@@ -139,7 +139,7 @@ public class AccountsController {
         .body(buildVersion);
   }
 
-  @Operation(summary = "Get Java version", description = "Get Java versions details that is installed into accounts microservice")
+  @Operation(summary = "Versiunea Java", description = "Detalii despre versiunea Java instalata in microserviciul accounts")
   @ApiResponse(responseCode = "200", description = "HTTP Status OK")
   @ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
   @GetMapping("/java-version")

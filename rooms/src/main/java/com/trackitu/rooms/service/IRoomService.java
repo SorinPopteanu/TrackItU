@@ -30,8 +30,8 @@ public interface IRoomService {
   boolean updateRoomDetails(UpdateRoomDto roomDto);
 
   /**
-   * @param roomCode - Input room code
+   * @param id - Input room id
    * @return boolean indicating if the deletion of the Room is successful or not
    */
-  boolean deleteRoom(String roomCode);
+  boolean deleteRoom(Long id);
 }

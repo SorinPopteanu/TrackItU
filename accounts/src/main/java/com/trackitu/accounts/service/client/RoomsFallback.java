@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 public class RoomsFallback implements RoomsFeignClient {
 
   @Override
-  public ResponseEntity<List<FetchRoomProfessorDto>> fetchRoomByProfessorId(String correlationId,
-      Long professorId) {
+  public ResponseEntity<List<FetchRoomProfessorDto>> fetchRoomByProfessorId(Long professorId) {
     return null;
   }
 }

@@ -11,5 +11,4 @@ public interface AccountsFeignClient {
 
   @GetMapping("/api/v1/customer/fetch")
   ResponseEntity<CustomerDto> fetchCustomer(@RequestParam Long id);
-
 }

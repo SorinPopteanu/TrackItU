@@ -9,7 +9,7 @@ public interface ICustomerService {
    * @param email - Input email
    * @return Customer Details based on an email
    */
-  FetchCustomerDetailsDto fetchCustomerDetails(String email, String correlationId);
+  FetchCustomerDetailsDto fetchCustomerDetails(String email);
 
   /**
    * @param id            - Input customer id

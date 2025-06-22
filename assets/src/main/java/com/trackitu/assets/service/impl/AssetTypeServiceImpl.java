@@ -114,7 +114,6 @@ public class AssetTypeServiceImpl implements IAssetTypeService {
         assetRoomProfessorDtoList.add(assetRoomProfessorDto);
       }
     }
-
     fetchAssetRoomProfessorDto.setAssetRoomProfessorList(assetRoomProfessorDtoList);
 
     return fetchAssetRoomProfessorDto;

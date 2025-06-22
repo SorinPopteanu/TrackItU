@@ -10,14 +10,19 @@ spring:
           enabled: false
           lowerCaseServiceId: true
       httpclient:
-        connect-timeout: 5000
-        response-timeout: 5s
+        connect-timeout: 1000
+        response-timeout: 20s
   data:
     redis:
       connect-timeout: 2s
       host: localhost
       port: 6379
       timeout: 1s
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: "http://localhost:7080/realms/master/protocol/openid-connect/certs"
 
 management:
   endpoints:
@@ -30,6 +35,9 @@ management:
   info:
     env:
       enabled: true
+  metrics:
+    tags:
+      application: "${spring.application.name}"
 
 info:
   app:
@@ -40,8 +48,10 @@ info:
 logging:
   level:
     com:
-        trackitu:
-            gatewayserver: DEBUG
+      trackitu:
+        accounts: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name}, %X{trace_id}, %X{span_id}]"
 
 resilience4j:
   circuitbreaker:
@@ -51,6 +61,10 @@ resilience4j:
         permittedNumberOfCallsInHalfOpenState: 10
         failureRateThreshold: 50
         waitDurationInOpenState: 10000ms
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 20s
   retry:
     configs:
       default:
